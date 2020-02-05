@@ -38,6 +38,9 @@ for key in locs:
 fig.text(0.5,0.92, 'CONUS NEXRAD locations',horizontalalignment='center')
 plt.show()
 
+"""
+User input of the city name in the form of K'city code'( 3 chars like IND for Indianapolis )
+"""
 site = 'KIND'
 
 #get the radar location (this is used to set up the basemap and plotting grid)
@@ -54,6 +57,9 @@ date = ("{:4d}".format(now.year) + '/' + "{:02d}".format(now.month) + '/' +
 #get the bucket list for the selected date
 #Note: this returns a list of all of the radar sites with data for
 # the selected date
+"""
+User input of the current date.
+"""
 date = "2020/01/30"
 ls = bucket.list(prefix=date)
 for key in ls:
@@ -64,19 +70,23 @@ for key in ls:
         #set up the path to the NEXRAD files
         path = date + '/' + site + '/' + site
         #grab the last file in the file list
-        print(path)
+        print( "Path" , path)
         fname = bucket.get_all_keys(prefix=path)[-1]
-        print(fname)
+        print( "Filename" , fname)
         #get the file
         s3key = bucket.get_key(fname)
+        print( "Key" , s3key )
+        #x = str( fname )[ 41:64 ]
+        #print( len( x ) , x )
+        #print( len( 'KIND20160101_000720_V06' ) )
         #save a temporary file to the local host
         localfile = tempfile.NamedTemporaryFile(delete=False)
         print(localfile.name)
         #write the contents of the NEXRAD file to the temporary file
         s3key.get_contents_to_filename(localfile.name)
-        print("after s3")
         #use the read_nexrad_archive function from PyART to read in NEXRAD file
-        radar = pyart.io.read_nexrad_archive(localfile.name)
+        radar = pyart.io.read_nexrad_archive( 'KIND20160101_000720_V06' )#s3key
+        #radar = pyart.io.read_nexrad_archive(s3key)#localfile.name)
         #get the date and time from the radar file for plot enhancement
         time = radar.time['units'].split(' ')[-1].split('T')
         print(site + ': ' + time[0] + ' at ' + time[1] )
@@ -84,6 +94,7 @@ for key in ls:
         #set up the plotting grid for the data
         display = pyart.graph.RadarMapDisplay(radar)
         x,y = display._get_x_y(0,True,None)
+        break
 
 #set up a 1x1 figure for plotting
 fig, axes = plt.subplots(nrows=1,ncols=1,figsize=(9,9),dpi=100)
@@ -97,6 +108,8 @@ m = Basemap(projection='lcc',lon_0=lon0,lat_0=lat0,
 
 #get the plotting grid into lat/lon coordinates
 x0,y0 = m(lon0,lat0)
+print( "X" , x0 )
+print( "Y" , y0 )
 glons,glats = m((x0+x*1000.), (y0+y*1000.),inverse=True)
 #read in the lowest scan angle reflectivity field in the NEXRAD file
 refl = np.squeeze(radar.get_field(sweep=0,field_name='reflectivity'))
@@ -111,6 +124,9 @@ ax = axes
 #normalize the colormap based on the levels provided above
 norm = mpl.colors.BoundaryNorm(levs,256)
 #create a colormesh of the reflectivity using with the plot settings defined above
+#print( glons )
+#print( glats )
+print( refl )
 cs = m.pcolormesh(glons,glats,refl,norm=norm,cmap=cmap,ax=ax,latlon=True)
 #add geographic boundaries and lat/lon labels
 m.drawparallels(np.arange(20,70,0.5),labels=[1,0,0,0],fontsize=12,
