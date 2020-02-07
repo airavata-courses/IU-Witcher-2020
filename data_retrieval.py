@@ -9,11 +9,8 @@ channel.queue_declare(queue='data_retrieval_2_model_execution')
 
 channel.queue_declare(queue='messenger_2_data_retrieval')
 
-#x = json.dumps( { 'site' : "KDOX" , "date" :
-#"12/01/2020" } )
-
-def sending( t ) :
-    channel.basic_publish(exchange='', routing_key='data_retrieval_2_model_execution', body=t)
+def sending( user_data ) :
+    channel.basic_publish(exchange='', routing_key='data_retrieval_2_model_execution', body=user_data)
     print(" [x] Sent 'Hello World!'")
     connection.close()
 
