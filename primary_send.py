@@ -1,15 +1,18 @@
 #!/usr/bin/env python
 import pika
 import json
+import json
+
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
 channel.queue_declare(queue='messenger_2_data_retrieval')
 
-x = json.dumps( { 'site' : "KDOX" , "date" :
-"12/01/2020" } )
+user_data = json.dumps( { "City" : "Bloomington" , "State" : "Indiana" , "Country" : "USA" } )
 
-channel.basic_publish(exchange='', routing_key='messenger_2_data_retrieval', body=x)
+#user_data =  { "City" : "Bloomington" , "State" : "Indiana" , "Country" : "USA" }
+
+channel.basic_publish( exchange = '' , routing_key = 'messenger_2_data_retrieval' , body = user_data )
 print(" [x] Sent 'Hello World!'")
 connection.close()
