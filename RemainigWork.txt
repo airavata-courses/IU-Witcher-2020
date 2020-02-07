@@ -1,3 +1,0 @@
-#yet to create
-data retrieval microservice UI
-Analysis Report URL
