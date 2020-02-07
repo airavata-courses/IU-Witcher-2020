@@ -25,7 +25,7 @@ connection = pika.BlockingConnection(
 channel = connection.channel()
 
 channel.queue_declare(queue='data_retrieval_2_model_execution')
-channel.queue_declare(queue='model_execution_2_gateway')
+channel.queue_declare(queue='model_execution_2_post_processing')
 
 # def graphs( site ) :
 #     #save the nexrad locations to an array from the PyART library
@@ -165,8 +165,8 @@ channel.queue_declare(queue='model_execution_2_gateway')
 #     #display the figure
 #     plt.show()
 
-def sending2( user_data ) :
-    channel.basic_publish( exchange='', routing_key='model_execution_2_gateway', body=user_data)
+def sending( user_data ) :
+    channel.basic_publish( exchange='', routing_key='model_execution_2_post_processing', body=user_data)
     print(" [x] Sent 'Hello World!'")
     connection.close()
 
@@ -176,15 +176,16 @@ def getData( user_url ) :
         return data
 
 def current_weather( user_data ) :
-    user_data_dict = json.loads( user_data )
-    user_url = "http://api.openweathermap.org/data/2.5/weather?q=" + user_data_dict[ "City" ] + "," + user_data_dict[ "State" ] + "," + user_data_dict[ "Country" ] + "&appid=" + appid_key
+    user_data = json.loads( user_data )
+    user_data_list = user_data.split( )
+    user_url = "http://api.openweathermap.org/data/2.5/weather?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
     return getData( user_url )
 
 def callback(ch, method, properties, body):
     user_data = current_weather( body )
     print(" [x] Received %r" % user_data )
     user_data_json = json.dumps( user_data )
-    sending2( user_data_json )
+    sending( user_data_json )
 
 
 channel.basic_consume(
