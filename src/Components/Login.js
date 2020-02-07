@@ -42,6 +42,10 @@ class Login extends Component{
                 console.log(response);
                 if(response.data==='Successfully logged in'){
                     this.setState({features:true,login:false})
+                    alert('Successfully logged in')
+                }
+                else {
+                    alert('Error: Incorrect Username or Password')
                 }
 
             })
@@ -66,9 +70,12 @@ class Login extends Component{
                 <center>
 
                     <form onSubmit={this.login}>
-                        UserName: <input type='text' name='uname' onChange={this.setUsername} />
+
+                        Login
                         <br/>
-                        PassWord: <input type='text' name='password' onChange={this.setPassword}/>
+                        UserName: <input type='text' name='uname' onChange={this.setUsername} required/>
+                        <br/>
+                        PassWord: <input type='text' name='password' onChange={this.setPassword} required/>
                         <br/>
                         <input type='submit'></input>
                     </form>
