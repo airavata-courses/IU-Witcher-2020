@@ -11,7 +11,7 @@ channel.queue_declare(queue='gateway_2_data_retrieval')
 
 #user_data = json.dumps( { "City" : "Bloomington" , "State" : "Indiana" , "Country" : "USA" } )
 
-user_data = json.dumps( "Bloomington Indiana USA" )
+user_data = json.dumps( "Bloomington Indiana USA KIND" )
 
 #user_data =  { "City" : "Bloomington" , "State" : "Indiana" , "Country" : "USA" }
 

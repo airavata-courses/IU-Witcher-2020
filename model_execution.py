@@ -15,7 +15,7 @@ import pika
 # import warnings
 import json
 # warnings.simplefilter("ignore", category=DeprecationWarning)
-
+from pytemperature import k2f
 import urllib.request, json
 
 appid_key = "e125e10d5beec79d36fd71a90cdc590c"
@@ -176,18 +176,35 @@ def getData( user_url ) :
         return data
 
 def current_weather( user_data ) :
-    user_data = json.loads( user_data )
-    user_data_list = user_data.split( )
+    user_data_x = user_data[ "User" ]
+    user_data_list = user_data_x.split( )
     #user_url = "http://api.openweathermap.org/data/2.5/weather?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
     #user_url = "pro.openweathermap.org/data/2.5/forecast/hourly?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
     user_url = "http://api.openweathermap.org/data/2.5/forecast?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
     return getData( user_url )
 
+def forecasting( user_data ) :
+    forecast = [  ]
+    body = user_data
+    for i in range( 40 ) :
+        temp = { }
+        curr_dir = body[ "list" ][ i ]
+        temp[ "temp" ] = k2f( curr_dir[ "main" ][ "temp" ] )
+        temp[ "temp_min" ] = k2f( curr_dir[ "main" ][ "temp_min" ] )
+        temp[ "temp_max" ] = k2f( curr_dir[ "main" ][ "temp_max" ] )
+        temp[ "humidity" ] = curr_dir[ "main" ][ "humidity" ]
+        temp[ "weather" ] = curr_dir[ "weather" ][ 0 ][ "main" ]
+        temp[ "wind_speed" ] = curr_dir[ "wind" ][ "speed" ]
+        temp[ "date_time" ] = curr_dir[ "dt_txt" ]
+        forecast.append( temp )
+    return forecast
+
 def callback(ch, method, properties, body):
+    body = json.loads( body )
     user_data = current_weather( body )
-    #print(" [x] Received %r" % user_data )
-    user_data_json = json.dumps( user_data )
-    sending( user_data_json )
+    forecast_data = forecasting( user_data )
+    all_data = { "Forecast" : forecast_data , "Processing" : body[ "Processing" ] , "User" : body[ "User" ] }
+    sending( json.dumps( all_data ) )
 
 
 channel.basic_consume(
