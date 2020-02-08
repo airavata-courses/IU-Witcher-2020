@@ -1,50 +1,28 @@
 import React,{Component} from 'react';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
+import Navigation from './Components/Navigation';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import './App.css';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            login: true,
-            signup:false
-        }
-        this.signupButton=this.signupButton.bind(this);
-
-    }
-
-    signupButton=(event)=>{
-      this.setState({signup:!this.state.signup})
-    }
     render() {
-        let signup_form=null
-        if(this.state.signup){
-          signup_form=<Signup/>
-        }
         return (
-
-            <div className="App">
-
+            <BrowserRouter>
                 <div>
-                    <button onClick={this.signupButton}> Signup Tab </button>
-                    <br/>
-                    {signup_form}
-                    <br/>
+                    <Navigation/>
+                    <Switch>
+                        <Route path="/" component={Login} exact/>
+                        <Route path="/signup" component={Signup}/>
+
+                    </Switch>
                 </div>
-
-              <br/>
-                <br/>
-
-
-              <center>
-                      <Login/>
-                </center>
-
-            </div>
+            </BrowserRouter>
         );
     }
 
 }
+
+
 export default App;
