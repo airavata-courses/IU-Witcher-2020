@@ -178,12 +178,14 @@ def getData( user_url ) :
 def current_weather( user_data ) :
     user_data = json.loads( user_data )
     user_data_list = user_data.split( )
-    user_url = "http://api.openweathermap.org/data/2.5/weather?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
+    #user_url = "http://api.openweathermap.org/data/2.5/weather?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
+    #user_url = "pro.openweathermap.org/data/2.5/forecast/hourly?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
+    user_url = "http://api.openweathermap.org/data/2.5/forecast?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
     return getData( user_url )
 
 def callback(ch, method, properties, body):
     user_data = current_weather( body )
-    print(" [x] Received %r" % user_data )
+    #print(" [x] Received %r" % user_data )
     user_data_json = json.dumps( user_data )
     sending( user_data_json )
 

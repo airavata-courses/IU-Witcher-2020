@@ -16,7 +16,7 @@ def sending( user_data ) :
 
 def callback(ch, method, properties, body):
     sending( body )
-    print(" [x] Received %r" % body)
+    #print(" [x] Received %r" % body)
 
 
 channel.basic_consume(
