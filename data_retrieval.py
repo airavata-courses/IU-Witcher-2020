@@ -30,13 +30,14 @@ def data_extraction( user_site , curr_date ) :
     curr_date = str( curr_date ).split( '-' )
     if( len( curr_date[ 2 ] ) == 1 ) :
         curr_date[ 2 ] = "0" + curr_date[ 2 ]
+    obj = ""
     for obj in bucket.objects.filter(Prefix= ( curr_date[ 0 ] + '/' + curr_date[ 1 ] + '/' + curr_date[ 2 ] + '/' + user_site + '/' \
                         + user_site + curr_date[ 0 ] + curr_date[ 1 ] + curr_date[ 2 ] + '_' ) ):#'2017/01/01/KTLX/KTLX20170101_'):
         #name = get_test_data('KTLX20130520_201643_V06.gz', as_file_obj=False)
-        f = Level2File(obj.get()[ 'Body' ])
+        continue
+    f = Level2File(obj.get()[ 'Body' ])
         #name = get_test_data(str( obj.key )[ 16: ] + '.gz' , as_file_obj=False)
         #f = Level2File(name)
-        break
     sweep = 0
     # First item in ray is header, which has azimuth angle
     az = np.array([ray[0].az_angle for ray in f.sweeps[sweep]])

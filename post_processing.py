@@ -11,6 +11,9 @@ import json
 from metpy.cbook import get_test_data
 from metpy.io.nexrad import Level2File
 from metpy.plots import ctables
+from metpy.plots import add_timestamp
+from metpy.plots import add_timestamp
+from datetime import datetime
 
 import boto3
 import botocore
@@ -41,7 +44,7 @@ def hosting( ) :
     bucket = conn.create_bucket(bucket_name,
         location=boto.s3.connection.Location.DEFAULT)
 
-    testfile = "GINI_Water_Vapor.png"
+    testfile = "Reflectivity_Correlation.png"
     print( 'Uploading %s to Amazon S3 bucket %s' % \
        (testfile, bucket_name) )
 
@@ -84,8 +87,12 @@ def plotting( plot_data ) :
         ax.set_aspect('equal', 'datalim')
         ax.set_xlim(-40, 20)
         ax.set_ylim(-30, 30)
+        #ax.set_xlabel('xlabel')
+        #ax.set_ylabel('ylabel')
+        add_timestamp(ax, datetime.now(), y=0.02, high_contrast=True)
 
-    plt.savefig( "GINI_Water_Vapor.png" )
+    fig.suptitle( 'Minimum and Maximum range of Reflectivity' )
+    plt.savefig( "Reflectivity_Correlation.png" )
     return hosting( )
     #plt.show()
 
