@@ -67,7 +67,6 @@ def callback(ch, method, properties, body):
     sending( body )
     print(" [x] Received %r" % body)
 
-
 channel.basic_consume(
     queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
 

@@ -47,7 +47,8 @@ def plotting( plot_data ) :
         ax.set_xlim(-40, 20)
         ax.set_ylim(-30, 30)
 
-    plt.show()
+    plt.savefig( "Reflectivity.png" )
+    #plt.show()
 
 def sending( user_data ) :
     plotting( json.loads( user_data )[ "Processing" ] )
