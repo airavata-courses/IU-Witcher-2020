@@ -11,3 +11,9 @@ Data Retrieval receives user location from the API Gateway. Then it downloads a 
 Model Execution receives user location and the latest weather data from Data Retrieval. Model execution calls the OpenWeatherMap API to get the forecasting data by using the USER location. Since the API gives plenty of parameters, some of the less important parameters are filtered. Then the parameters are converted is merged into a JSON object with the previous data. Note every time we merge data to the JSON object, there might be a hierarchy of dictionary for every merge. So if let's say we have 10 microservices, we have to access the dictionary[ "Key1" ][ "Key2" ]...[ "Key10" ] which will be really cumbersome. So we make sure that the elements of the dictionary are merged not the dictionary as a whole.
 ### Post Processing
 In post-processing, we get use the weather data to plot the range of Reflectivity for the most recently updated data in AWS Nexrad Directory for the current date. After generating an image for the same we save it locally. Then we add the image to a bucket in the AWS directory and make it public. Then we pass on the predesignated URL along with the forecasting data to the API Gateway using RabbitMQ which will eventually be shown to the USER.
+## References
+* https://www.nsstc.uah.edu/users/brian.freitag/AWS_Radar_with_Python.html
+* https://www.rabbitmq.com/tutorials/tutorial-one-python.html
+* https://unidata.github.io/python-gallery/examples/Nexrad_S3_Demo.html
+* https://unidata.github.io/MetPy/latest/examples/formats/NEXRAD_Level_2_File.html
+* https://stackoverflow.com/questions/15085864/how-to-upload-a-file-to-directory-in-s3-bucket-using-boto
