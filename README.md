@@ -1,4 +1,10 @@
 # IU-Witcher-2020
+
+## Team members
+- Vishal Patel
+- Sanyam Rajpal
+- Akshay Gupta
+
 ## Languages Used
 * PHP - User Management.
 * Python - Data Retrieval, Model Execution, Post Processing and API Gateway.
