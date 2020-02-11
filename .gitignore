@@ -1,7 +1,11 @@
-**/*.env
+*.env
+
+**/venv
+
+**/__pycharm__
 
 **/node_modules
 
-**/*.DS_Store
+*.DS_Store
 
-**/*.log
+*.log
