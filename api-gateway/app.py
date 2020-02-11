@@ -18,6 +18,8 @@ import pika
 # connection.close()
 
 userID=''
+temp=''
+
 
 @app.route('/',methods=['POST','GET'])
 def indexPage():
@@ -80,60 +82,39 @@ def signupPage():
 @app.route('/data',methods=['POST','GET'])
 def data():
     if request.method == 'POST':
-        city=request.form['city']
+        user_data=json.dumps(request.form['search'])
 
     else:
-        #city=request.args.get('city')
+        print(request.args.get('search'))
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
-        channel.queue_declare(queue='model_execution_2_gateway')
+        channel.queue_declare(queue='post_processing_2_gateway')
 
-        user_data = json.dumps({"City": "Bloomington", "State": "Indiana", "Country": "USA"})
-        #user_data = json.dumps({ "Bloomington Indiana USA" })
-        #def sending(user_data):
-        #    channel.basic_publish(exchange='', routing_key='gateway_2_data_retrieval', body=user_data)
-        #    print(" [x] Sent 'Hello World!'")
-        #    connection.close()
-        temp = "Done"
+        user_data=json.dumps(request.args.get('search'))
+        #user_data = json.dumps("Bloomington Indiana USA KIND")
+
         def callback(ch, method, properties, body):
             #sending(body)
+            global temp
             temp = body
-            print(" [x] Received %r" % body)
+            temp=json.loads(temp)
+            print( temp[ "Forecast" ][ 0 ] )
+            connection.close()
+
+            #print(" [x] Received %r" % body)
 
         channel.basic_publish(exchange='', routing_key='gateway_2_data_retrieval', body=user_data)
-        #print(" [x] Sent 'Hello World!'")
-        #connection.close()
 
         channel.basic_consume(
-            queue='model_execution_2_gateway', on_message_callback=callback, auto_ack=True)
+            queue='post_processing_2_gateway', on_message_callback=callback, auto_ack=True)
 
         print(' [*] Waiting for messages. To exit press CTRL+C')
         channel.start_consuming()
+        print(temp["url"])
+        return str(temp[ "Forecast" ][ 0 ])
 
 
-
-
-        # channel.basic_publish(exchange='',
-        #                       routing_key='hello',
-        #                       body=user_data)
-        # print(" [x] Sent "+user_data)
-
-        connection.close()
-
-        # def callback(ch, method, properties, body):
-        #     print(" [x] Received %r" % body)
-        #     channel.basic_publish(exchange='',
-        #                           routing_key='hello',
-        #                           body='Final Answer')
-        #     print(" [x] Sent 'Hello World!'")
-        #
-        # channel.basic_consume(
-        #     queue='hello', on_message_callback=callback, auto_ack=True)
-        #
-        # print(' [*] Waiting for messages. To exit press CTRL+C')
-        # channel.start_consuming()
-        return temp
 
 
 if __name__ == '__main__':
