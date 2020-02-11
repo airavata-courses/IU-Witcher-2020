@@ -35,15 +35,20 @@ def data_extraction( user_site , curr_date ) :
     # making the date of correct format( yyyy/mm/dd )
     if( len( curr_date[ 2 ] ) == 1 ) :
         curr_date[ 2 ] = "0" + curr_date[ 2 ]
-    obj = ""
     # iterating through all the elements in the list
+    # temporary variable
+    temp2 = ''
     for obj in bucket.objects.filter(Prefix= ( curr_date[ 0 ] + '/' + curr_date[ 1 ] + '/' + curr_date[ 2 ] + '/' + user_site + '/' \
                         + user_site + curr_date[ 0 ] + curr_date[ 1 ] + curr_date[ 2 ] + '_' ) ):#'2017/01/01/KTLX/KTLX20170101_'):
-        continue
+        #f = Level2File(obj.get()[ 'Body' ])
+        # temporary variable for location
+        temp1 = temp2
+        # to access the second most recent time
+        temp2 = obj
     # after finding the latest element in the NEXRAD AWS directory
     # as per the current time.
     # Downloading that file
-    f = Level2File(obj.get()[ 'Body' ])
+    f = Level2File(temp1.get()[ 'Body' ])
     # extracting mathemtical data from the weather data's class
     # to be passed upon in the future.
     sweep = 0
