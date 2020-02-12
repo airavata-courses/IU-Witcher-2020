@@ -4,7 +4,7 @@ const bodyParser = require('body-parser') //middleware for reading html from nod
 const app = express()
 const mongoose = require('mongoose')
 const usersRouter = require('./routes/users')
-const historiesRouter = require('./routes/histories')
+// const historiesRouter = require('./routes/histories')
 
 //db connection
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true})
@@ -21,7 +21,8 @@ express.json()
 app.use(express.json())
 
 app.use('/users', usersRouter) //anything with the route 'root/users/anything/here' will go to usersRouter
-app.use('/histories', historiesRouter)
+
+// app.use('/histories', historiesRouter)
 
 //handlers
 app.listen(process.env.PORT || 4321, function() {
