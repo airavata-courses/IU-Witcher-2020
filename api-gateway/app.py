@@ -5,7 +5,6 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 import urllib
 import json
-
 import pika
 
 # connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
@@ -19,10 +18,6 @@ import pika
 
 userID=''
 temp=''
-
-@app.route('/duck',methods=['POST','GET'])
-def indexe():
-    return "hello duck"
 
 @app.route('/',methods=['POST','GET'])
 def indexPage():
@@ -52,9 +47,6 @@ def indexPage():
         else:
             return "Wrong Password"
 
-
-
-
 @app.route('/signup',methods=['POST','GET'])
 def signupPage():
     if request.method == 'POST':
@@ -68,7 +60,6 @@ def signupPage():
             return "User Already Exists"
 
     else:
-
         uname=request.args.get('uname')
         password=request.args.get('password')
         #return "logged in"
@@ -81,10 +72,14 @@ def signupPage():
         else:
             return "User Already Exists"
 
-@app.route('/data',methods=['POST','GET'])
+@app.route('/data',methods=['POST','GET','PUT'])
 def data():
     if request.method == 'POST':
         user_data=json.dumps(request.form['search'])
+
+    elif request.method == 'PUT':
+        user_data = json.dumps(request.form)
+        print('user data', user_data)
 
     else:
         print(request.args.get('search'))
@@ -113,11 +108,14 @@ def data():
 
         print(' [*] Waiting for messages. To exit press CTRL+C')
         channel.start_consuming()
+
+        # check if user entry exists in mongodb
+        
+
+        # put request to update user searches
+
         print(temp["url"])
         return str(temp[ "Forecast" ][ 0 ])
-
-
-
 
 if __name__ == '__main__':
     app.run(debug= True )
