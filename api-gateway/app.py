@@ -20,6 +20,9 @@ import pika
 userID=''
 temp=''
 
+@app.route('/duck',methods=['POST','GET'])
+def indexe():
+    return "hello duck"
 
 @app.route('/',methods=['POST','GET'])
 def indexPage():
@@ -34,7 +37,6 @@ def indexPage():
             return "Wrong Password"
 
     else:
-
         uname=request.args.get('uname')
         password=request.args.get('password')
         #return "logged in"

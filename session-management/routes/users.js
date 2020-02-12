@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 
+// root_path/users handling
+
 //Getting all
 router.get('/', async (req, res) => {
     try {
