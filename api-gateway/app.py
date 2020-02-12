@@ -5,7 +5,6 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 import urllib
 import json
-
 import pika
 
 # connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
@@ -19,10 +18,6 @@ import pika
 
 userID=''
 temp=''
-
-@app.route('/duck',methods=['POST','GET'])
-def indexe():
-    return "hello duck"
 
 @app.route('/',methods=['POST','GET'])
 def indexPage():
@@ -115,9 +110,6 @@ def data():
         channel.start_consuming()
         print(temp["url"])
         return str(temp[ "Forecast" ][ 0 ])
-
-
-
 
 if __name__ == '__main__':
     app.run(debug= True )
