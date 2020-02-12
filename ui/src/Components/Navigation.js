@@ -13,7 +13,6 @@ class Navigation extends Component {
                     <NavLink to="/signup">
                         <button >Signup</button>
                     </NavLink>
-
                 </center>
 
             </div>

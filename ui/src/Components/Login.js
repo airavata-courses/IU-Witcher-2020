@@ -1,62 +1,57 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-import  '../App.css'
+import '../App.css'
 
-class Login extends Component{
+class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             login: true,
             features: false,
             uname: "",
-            password:"",
-            search:"",
-            prediction:""
+            password: "",
+            search: "",
+            prediction: ""
 
         }
-        this.setUsername=this.setUsername.bind(this);
-        this.setPassword=this.setPassword.bind(this);
-        this.login=this.login.bind(this);
-        this.setSearch=this.setSearch.bind(this);
+        this.setUsername = this.setUsername.bind(this);
+        this.setPassword = this.setPassword.bind(this);
+        this.login = this.login.bind(this);
+        this.setSearch = this.setSearch.bind(this);
     }
 
-    setUsername=(event)=>{
-        this.setState({uname:event.target.value})
+    setUsername = (event) => {
+        this.setState({uname: event.target.value})
     }
 
-    setPassword=(event)=>{
-        this.setState({password:event.target.value})
+    setPassword = (event) => {
+        this.setState({password: event.target.value})
     }
 
-    setSearch=(event)=> {
+    setSearch = (event) => {
         this.setState({search: event.target.value})
     }
 
-    search=(event)=>{
+    search = (event) => {
         event.preventDefault()
-        axios.get('http://127.0.0.1:5000/data?search='+this.state.search)
-            .then( (response)=> {
-                // handle success
-                console.log(response);
-                this.setState({prediction:response.data})
+        axios.get('http://127.0.0.1:5000/data?search=' + this.state.search).then((response) => {
+            // handle success
+            console.log(response);
+            this.setState({prediction: response.data})
 
-            })
+        }).catch(function(error) {
+            // handle error
+            console.log(error);
+        }).then(function() {
+            // always executed
+        });
 
-
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .then(function () {
-
-                // always executed
-            });
-
-
+        axios.put('http://127.0.0.1:5000/data', {userName: this.state.uname, search: 'bloom ind usa kind'})
+            .then((resp) => console.log('put resp', resp))
     }
 
-    login=(event)=>{
+    login = (event) => {
         event.preventDefault()
 
         // axios.post('http://127.0.0.1:5000/', {
@@ -69,101 +64,79 @@ class Login extends Component{
         //         console.log(error);
         //     });
 
-        axios.get('http://127.0.0.1:5000/?uname='+this.state.uname+'&password='+this.state.password)
-            .then( (response)=> {
-                // handle success
-                console.log(response);
-                if(response.data==='Successfully logged in'){
-                    this.setState({features:true,login:false})
-                    alert('Successfully logged in')
-                }
-                else {
-                    alert('Error: Incorrect Username or Password')
-                }
+        axios.get('http://127.0.0.1:5000/?uname=' + this.state.uname + '&password=' + this.state.password).then((response) => {
+            // handle success
+            console.log(response);
+            if (response.data === 'Successfully logged in') {
+                this.setState({features: true, login: false})
+                alert('Successfully logged in')
+            } else {
+                alert('Error: Incorrect Username or Password')
+            }
 
-            })
-
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .then(function () {
+        }).catch(function(error) {
+            // handle error
+            console.log(error);
+        }).then(function() {
 
             // always executed
         });
 
-
     }
 
-
-
-    render(){
+    render() {
         let logindiv = null;
-        if(this.state.login) {
-            logindiv = (
-                <center>
-
-                    <form onSubmit={this.login}>
-
-                        Login
-                        <br/>
-                        UserName: <input type='text' name='uname' onChange={this.setUsername} required/>
-                        <br/>
-                        PassWord: <input type='text' name='password' onChange={this.setPassword} required/>
-                        <br/>
-                        <input type='submit'></input>
-                    </form>
-                </center>
-                    )
-                    }
-
-        let features = null;
-        if(this.state.features) {
-            features = (
-                <center>
-                    Welcome {this.state.uname} <br/>
-
-                        <br/>
-
-                        <form onSubmit={this.search}>
-
-                            Search:
-                            <select name='search' onChange={this.setSearch} required>
-                                <option value='Bloomington Indiana USA KIND'> Bloomington Indiana USA KIND</option>
-                                <option value='Indianapolis Indiana USA KIND'>Indianapolis, Indiana, USA, KIND</option>
-                                <option value='Boston MA USA KBOX'>Boston, MA, USA, KBOX</option>
-                                <option value='Cleveland OHIO USA KCLE'>Cleveland, OHIO, USA, KCLE</option>
-                                <option value='Tucson Arizona USA KEMX'>Tucson, Arizona, USA, KEMX</option>
-                            </select>
-                            <input type='submit'></input>
-
-                        </form>
-
-                    <div className={'prediction'}>
-                        <br/>
-                        <br/>
-                        {this.state.prediction}
-                        <img src='https://akiailzke76qae2cesgq-dump.s3.amazonaws.com/mytestfile'/>
-                    </div>
-
-
+        if (this.state.login) {
+            logindiv = (<center>
+                <form onSubmit={this.login}>
+                    Login
                     <br/>
-
-                    <button>
-                        Check Session
-
-                    </button>
-
-                </center>
-            )
+                    UserName:
+                    <input type='text' name='uname' onChange={this.setUsername} required="required"/>
+                    <br/>
+                    PassWord:
+                    <input type='text' name='password' onChange={this.setPassword} required="required"/>
+                    <br/>
+                    <input type='submit'></input>
+                </form>
+            </center>)
         }
 
-        return (
-            <div className="App">
-                {logindiv}
-                {features}
-            </div>
-        );
+        let features = null;
+        if (this.state.features) {
+            features = (<center>
+                Welcome {this.state.uname}
+                <br/>
+                <br/>
+                <form onSubmit={this.search}>
+                    Search:
+                    <select name='search' onChange={this.setSearch} required="required">
+                        <option value='Bloomington Indiana USA KIND'>
+                            Bloomington Indiana USA KIND</option>
+                        <option value='Indianapolis Indiana USA KIND'>Indianapolis, Indiana, USA, KIND</option>
+                        <option value='Boston MA USA KBOX'>Boston, MA, USA, KBOX</option>
+                        <option value='Cleveland OHIO USA KCLE'>Cleveland, OHIO, USA, KCLE</option>
+                        <option value='Tucson Arizona USA KEMX'>Tucson, Arizona, USA, KEMX</option>
+                    </select>
+                    <input type='submit'></input>
+                </form>
+
+                <div className={'prediction'}>
+                    <br/>
+                    <br/> {this.state.prediction}
+                    <img src='https://akiailzke76qae2cesgq-dump.s3.amazonaws.com/mytestfile'/>
+                </div>
+                <br/>
+                <button>
+                    Check Session
+                </button>
+            </center>)
+        }
+
+        return (<div className="App">
+            {logindiv}
+            {features}
+        </div>);
     }
 }
 

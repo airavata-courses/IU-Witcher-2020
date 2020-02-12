@@ -72,10 +72,14 @@ def signupPage():
         else:
             return "User Already Exists"
 
-@app.route('/data',methods=['POST','GET'])
+@app.route('/data',methods=['POST','GET','PUT'])
 def data():
     if request.method == 'POST':
         user_data=json.dumps(request.form['search'])
+
+    elif request.method == 'PUT':
+        user_data = json.dumps(request.form)
+        print('user data', user_data)
 
     else:
         print(request.args.get('search'))
