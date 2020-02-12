@@ -5,6 +5,9 @@
 - Sanyam Rajpal
 - Akshay Gupta
 
+## Installation instructions:
+[Wiki page](https://github.com/airavata-courses/IU-Witcher-2020/wiki)
+
 ## Languages Used
 * PHP - User Management.
 * Python - Data Retrieval, Model Execution, Post Processing and API Gateway.
