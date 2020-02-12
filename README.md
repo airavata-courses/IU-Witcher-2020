@@ -29,7 +29,7 @@ Model Execution receives user location and the latest weather data from Data Ret
 In post-processing, we get use the weather data to plot the range of Reflectivity for the most recently updated data in AWS Nexrad Directory for the current date. After generating an image for the same we save it locally. Then we add the image to a bucket in the AWS directory and make it public. Then we pass on the predesignated URL along with the forecasting data to the API Gateway using RabbitMQ which will eventually be shown to the USER.
 
 ### Session Management
-The Session Manager is responsible for 2 tasks. One, it saves all the queries that the user has made on the Front-end. Two, it allows the user to access these queries later. It creates an interaction with the Front-end through the API-Gateway. The Session Manager is built as a Node.js server using the Express.js framework. It uses a local instance of MongoDB for saving the user related data.
+The Session Manager is responsible for 2 tasks. One, it saves all the queries that the user has made on the Front-end. Two, it allows the user to access these queries later. It creates an interaction with the Front-end through the API-Gateway. The Session Manager is built as a `Node.js` server using the `Express.js` framework. It uses a local instance of `MongoDB` for saving the user related data.
 
 ## References
 * https://www.nsstc.uah.edu/users/brian.freitag/AWS_Radar_with_Python.html
