@@ -2,13 +2,15 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 
+// root_path/users api
+
 //Getting all
 router.get('/', async (req, res) => {
     try {
         const users = await User.find()
         res.send(users)
     } catch(err) {
-        res.status(500).json({message: err.message}) // status 500 means server error
+        res.status(500).json({message: err.message}) // status 500 - server error
     }
 })
 
@@ -19,26 +21,29 @@ router.get('/:id', getUser, (req, res) => {
 
 //Creating one
 router.post('/', async (req, res) => {
+    console.log('POST CALL', req.body)
     const user = new User({
         userName: req.body.userName,
-        // query: req.body.query
+        search: [req.body.search]
     })
     try {
         const newUser = await user.save()
-        res.status(201).json(newUser) // status 201 means successfully created an object
+        res.status(201).json(newUser) // status 201 - successfully created an object
     } catch(err) {
         res.status(400).json({message: err.message})
     }
 })
 
 //Updating one
-router.patch('/:id', getUser, async (req, res) => {
+router.put('/', getUser, async (req, res) => {
+    console.log('PUT CALL', req.body)
     if(req.body.userName !== null){
         res.user.userName = req.body.userName
     }
-    // if(req.body.query !== null){
-    //     res.user.query = req.body.query
-    // }
+    if(req.body.search !== null){
+        res.user.search.push(req.body.search)
+    }
+    console.log('PUT CALL 222', res.user)
     try {
         const updatedUser = await res.user.save()
         res.json(updatedUser)
@@ -60,10 +65,12 @@ router.delete('/:id', getUser, async (req, res) => {
 //getUser middleware
 async function getUser(req, res, next){
     let user
+    console.log('MIDDLEWARE REQ BODY', req.body)
     try {
-        user = await User.findById(req.params.id)
+        // user = await User.findById(req.params.id)
+        user = await User.findOne({userName: req.body.userName})
         if(user === null){
-            return res.status(404).json({message: 'Cannot find subscriber'})
+            return res.status(404).json({message: 'Cannot find user'})
         }
     } catch(err) {
         return res.status(500).json({message: err.message})
