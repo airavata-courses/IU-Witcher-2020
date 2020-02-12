@@ -1,28 +1,28 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-class Signup extends Component{
+class Signup extends Component {
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             uname: "",
-            password:"",
-            signup_form:true
+            password: "",
+            signup_form: true
         }
-        this.setUsername=this.setUsername.bind(this);
-        this.setPassword=this.setPassword.bind(this);
-        this.signup=this.signup.bind(this);
+        this.setUsername = this.setUsername.bind(this);
+        this.setPassword = this.setPassword.bind(this);
+        this.signup = this.signup.bind(this);
     }
 
-    setUsername=(event)=>{
-        this.setState({uname:event.target.value})
+    setUsername = (event) => {
+        this.setState({uname: event.target.value})
     }
 
-    setPassword=(event)=>{
-        this.setState({password:event.target.value})
+    setPassword = (event) => {
+        this.setState({password: event.target.value})
     }
 
-    signup=(event)=>{
+    signup = (event) => {
         event.preventDefault()
 
         // axios.post('http://127.0.0.1:5000/', {
@@ -35,61 +35,53 @@ class Signup extends Component{
         //         console.log(error);
         //     });
 
-        axios.get('http://127.0.0.1:5000/signup?uname='+this.state.uname+'&password='+this.state.password)
-            .then( (response)=> {
-                // handle success
-                console.log(response);
-                if(response.data==='Successfully Created User'){
-                    this.setState({signup_form:false})
-                    alert("Registered Successfully")
-                }
-                else {
-                    alert("User Already exists")
-                }
+        axios.get('http://127.0.0.1:5000/signup?uname=' + this.state.uname + '&password=' + this.state.password).then((response) => {
+            // handle success
+            console.log(response);
+            if (response.data === 'Successfully Created User') {
+                this.setState({signup_form: false})
+                alert("Registered Successfully")
+            } else {
+                alert("User Already exists")
+            }
 
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .then(function () {
+        }).catch(function(error) {
+            // handle error
+            console.log(error);
+        }).then(function() {
 
-                // always executed
-            });
-
+            // always executed
+        });
 
     }
 
+    render() {
 
-    render(){
+        let signupdiv = null;
+        if (this.state.signup_form) {
+            signupdiv = (<center>
 
-        let signupdiv=null;
-        if(this.state.signup_form){
-            signupdiv=(
-                <center>
+                <div >
+                    <form onSubmit={this.signup}>
+                        Signup
+                        <br/>
+                        UserName:
+                        <input type='text' name='uname' onChange={this.setUsername} required="required"/>
+                        <br/>
+                        PassWord:
+                        <input type='text' name='password' onChange={this.setPassword} required="required"/>
+                        <br/>
+                        <input type='submit'></input>
+                    </form>
 
-                    <div >
-                        <form onSubmit={this.signup}>
-                            Signup
-                            <br/>
-                            UserName: <input type='text' name='uname' onChange={this.setUsername} required/>
-                            <br/>
-                            PassWord: <input type='text' name='password' onChange={this.setPassword} required/>
-                            <br/>
-                            <input type='submit'></input>
-                        </form>
+                </div>
 
-                    </div>
-
-                </center>
-            )
+            </center>)
 
         }
-        return (
-            <div>
-                {signupdiv}
-            </div>
-        );
+        return (<div>
+            {signupdiv}
+        </div>);
     }
 }
 

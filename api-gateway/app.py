@@ -47,9 +47,6 @@ def indexPage():
         else:
             return "Wrong Password"
 
-
-
-
 @app.route('/signup',methods=['POST','GET'])
 def signupPage():
     if request.method == 'POST':
@@ -63,7 +60,6 @@ def signupPage():
             return "User Already Exists"
 
     else:
-
         uname=request.args.get('uname')
         password=request.args.get('password')
         #return "logged in"
