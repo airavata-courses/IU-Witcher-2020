@@ -9,6 +9,15 @@ const usersSchema = new Schema({
     },
     search: [{
         type: String
+    }],
+    prediction: [{
+        temp: Number,
+        temp_min: Number,
+        temp_max: Number,
+        humidity: Number,
+        weather: String,
+        wind_speed: Number,
+        date_time: String
     }]
 })
 
