@@ -6,8 +6,7 @@ class Signup extends Component {
         super(props);
         this.state = {
             uname: "",
-            password: "",
-            signup_form: true
+            password:""
         }
         this.setUsername = this.setUsername.bind(this);
         this.setPassword = this.setPassword.bind(this);
@@ -35,15 +34,27 @@ class Signup extends Component {
         //         console.log(error);
         //     });
 
-        axios.get('http://127.0.0.1:5000/signup?uname=' + this.state.uname + '&password=' + this.state.password).then((response) => {
-            // handle success
-            console.log(response);
-            if (response.data === 'Successfully Created User') {
-                this.setState({signup_form: false})
-                alert("Registered Successfully")
-            } else {
-                alert("User Already exists")
-            }
+
+        axios.get('http://127.0.0.1:5000/signup?uname='+this.state.uname+'&password='+this.state.password)
+            .then( (response)=> {
+                // handle success
+                console.log(response);
+                if(response.data==='Successfully Created User'){
+                    alert("Registered Successfully")
+                }
+                else {
+                    alert("User Already exists")
+                }
+
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .then(function () {
+
+                // always executed
+            });
 
         }).catch(function(error) {
             // handle error
@@ -57,31 +68,28 @@ class Signup extends Component {
 
     render() {
 
-        let signupdiv = null;
-        if (this.state.signup_form) {
-            signupdiv = (<center>
 
-                <div >
-                    <form onSubmit={this.signup}>
-                        Signup
-                        <br/>
-                        UserName:
-                        <input type='text' name='uname' onChange={this.setUsername} required="required"/>
-                        <br/>
-                        PassWord:
-                        <input type='text' name='password' onChange={this.setPassword} required="required"/>
-                        <br/>
-                        <input type='submit'></input>
-                    </form>
+        return (
+            <div>
+            <center>
 
-                </div>
+            <div >
+                <form onSubmit={this.signup}>
+                    Signup
+                    <br/>
+                    UserName: <input type='text' name='uname' onChange={this.setUsername} required/>
+                    <br/>
+                    PassWord: <input type='text' name='password' onChange={this.setPassword} required/>
+                    <br/>
+                    <input type='submit'></input>
+                </form>
+            </div>
+    
+            </center>
 
-            </center>)
+            </div>
+    );
 
-        }
-        return (<div>
-            {signupdiv}
-        </div>);
     }
 }
 
