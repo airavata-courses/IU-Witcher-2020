@@ -5,10 +5,13 @@
 - Sanyam Rajpal
 - Akshay Gupta
 
+## Installation instructions:
+[Wiki page](https://github.com/airavata-courses/IU-Witcher-2020/wiki)
+
 ## Languages Used
 * PHP - User Management.
 * Python - Data Retrieval, Model Execution, Post Processing and API Gateway.
-* JS - User Interface.
+* Javascript - User Interface, Session Management, NoSql Database
 
 ## Messenger
 RabbitMQ is used as the only source of communication for interaction within the microservices as well for the interaction of microservices with the API Gateway. It requires elements that will be pushed and popped from the queue to be JSON objects.
