@@ -21,10 +21,11 @@ router.get('/:id', getUserFromQuery, (req, res) => {
 
 //Creating one
 router.post('/', async (req, res) => {
-    // console.log('POST CALL', req.body)
+    console.log('POST CALL', req.body)
     const user = new User({
         userName: req.body.userName,
-        search: [req.body.search]
+        search: [req.body.search],
+        prediction: [{...req.body.prediction}]
     })
     try {
         const newUser = await user.save()
@@ -42,6 +43,12 @@ router.put('/', getUser, async (req, res) => {
     }
     if(req.body.search !== null){
         res.user.search.push(req.body.search)
+    }
+    if(req.body.prediction !== null){
+        res.user.prediction = [
+            ...res.user.prediction,
+            {...req.body.prediction}
+        ]
     }
     try {
         const updatedUser = await res.user.save()
@@ -85,10 +92,13 @@ async function getUserFromQuery(req, res, next){
     try {
         user = await User.findOne({userName: req.params.id})
         if(user === null){
-            return res.status(404).json({message: 'Cannot find user'})
+            return res.status(404).json({
+                statusCode: 404,
+                message: 'Cannot find user'
+            })
         }
     } catch(err) {
-        return res.status(500).json({message: err.message})
+        return res.status(500).json(err)
     }
     res.user = user
     next()
