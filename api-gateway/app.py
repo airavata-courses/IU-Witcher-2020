@@ -6,6 +6,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 import urllib
 import json
 import pika
+import requests
 
 # connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 # channel = connection.channel()
@@ -17,7 +18,6 @@ import pika
 # connection.close()
 
 userID=''
-temp=''
 
 @app.route('/',methods=['POST','GET'])
 def indexPage():
@@ -82,6 +82,7 @@ def data():
         print('user data', user_data)
 
     else:
+        search=request.args.get('search')
         print(request.args.get('search'))
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
         channel = connection.channel()
@@ -112,11 +113,39 @@ def data():
 
         # check if user entry exists in mongodb
         
+        url = "http://localhost:4321/users"
+        dict=temp[ "Forecast" ][ 0 ]
+
+        global userID
+        response = requests.get('http://localhost:4321/users/'+userID)
+        print(response.content)
+        res_dict = json.loads(response.content.decode('utf-8'))
+        
+        if 'userName' in res_dict:
+            r=requests.put(url,json=dict)
+            print("put request",r.content)
+            #r = json.loads(r.content.decode('utf-8'))     
+        else:
+            r = requests.post(url,json=dict)
+            print("post request",r.content)
+            #r = json.loads(r.content.decode('utf-8'))
 
         # put request to update user searches
 
-        print(temp["url"])
         return str(temp[ "Forecast" ][ 0 ])
+
+@app.route('/history',methods=['POST','GET','PUT'])
+def gethistory():
+    if request.method == 'GET':
+        url = "http://localhost:4321/users"
+        global userID
+        response = requests.get('http://localhost:4321/users/'+userID)
+        print(response.content)
+        res_dict = json.loads(response.content.decode('utf-8'))
+
+        return str(res_dict)
+
+
 
 if __name__ == '__main__':
     app.run(debug= True )

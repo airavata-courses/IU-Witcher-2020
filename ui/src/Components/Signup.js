@@ -56,13 +56,7 @@ class Signup extends Component {
                 // always executed
             });
 
-        }).catch(function(error) {
-            // handle error
-            console.log(error);
-        }).then(function() {
-
-            // always executed
-        });
+        
 
     }
 

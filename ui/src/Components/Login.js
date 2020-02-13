@@ -12,13 +12,15 @@ class Login extends Component {
             uname: "",
             password: "",
             search: "",
-            prediction: ""
+            prediction: "",
+            history:""
 
         }
         this.setUsername = this.setUsername.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.login = this.login.bind(this);
         this.setSearch = this.setSearch.bind(this);
+        this.history=this.history.bind(this);
     }
 
     setUsername = (event) => {
@@ -52,7 +54,7 @@ class Login extends Component {
     }
 
     login = (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         // axios.post('http://127.0.0.1:5000/', {
         //     uname: this.state.uname,
@@ -84,6 +86,24 @@ class Login extends Component {
 
     }
 
+    history=(event)=>{
+        event.preventDefault()
+
+        axios.get('http://127.0.0.1:5000/history')
+            .then((response) => {
+            // handle success
+            console.log(response);
+            this.setState({history:response.data})
+
+        }).catch(function(error) {
+            // handle error
+            console.log(error);
+        }).then(function() {
+
+            // always executed
+        });
+    }
+
     render() {
         let logindiv = null;
         if (this.state.login) {
@@ -97,7 +117,7 @@ class Login extends Component {
                     PassWord:
                     <input type='text' name='password' onChange={this.setPassword} required="required"/>
                     <br/>
-                    <input type='submit'></input>
+                    <input type='submit'/>
                 </form>
             </center>)
         }
@@ -127,8 +147,10 @@ class Login extends Component {
                     <img src='https://akiailzke76qae2cesgq-dump.s3.amazonaws.com/mytestfile'/>
                 </div>
                 <br/>
+
                 <button>
-                    Check Session
+                    <button onClick={this.history}>Check Session</button>
+                    {this.state.history}
                 </button>
             </center>)
         }
