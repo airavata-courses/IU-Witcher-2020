@@ -35,8 +35,8 @@ In post-processing, we get use the weather data to plot the range of Reflectivit
 The Session Manager is responsible for 2 tasks. One, it saves all the queries that the user has made on the Front-end. Two, it allows the user to access these queries later. It creates an interaction with the Front-end through the API-Gateway. The Session Manager is built as a `Node.js` server using the `Express.js` framework. It uses a local instance of `MongoDB` for saving the user related data.
 
 ## References
-* https://www.nsstc.uah.edu/users/brian.freitag/AWS_Radar_with_Python.html
-* https://www.rabbitmq.com/tutorials/tutorial-one-python.html
-* https://unidata.github.io/python-gallery/examples/Nexrad_S3_Demo.html
-* https://unidata.github.io/MetPy/latest/examples/formats/NEXRAD_Level_2_File.html
-* https://stackoverflow.com/questions/15085864/how-to-upload-a-file-to-directory-in-s3-bucket-using-boto
+* [AWS]( https://www.nsstc.uah.edu/users/brian.freitag/AWS_Radar_with_Python.html )
+* [RabbitMQ]( https://www.rabbitmq.com/tutorials/tutorial-one-python.html )
+* [Nexrad]( https://unidata.github.io/python-gallery/examples/Nexrad_S3_Demo.html )
+* [Metpy]( https://unidata.github.io/MetPy/latest/examples/formats/NEXRAD_Level_2_File.html )
+* [AWS Bucket]( https://stackoverflow.com/questions/15085864/how-to-upload-a-file-to-directory-in-s3-bucket-using-boto )
