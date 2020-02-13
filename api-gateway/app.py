@@ -114,9 +114,10 @@ def data():
         # check if user entry exists in mongodb
         
         url = "http://localhost:4321/users"
-        dict=temp[ "Forecast" ][ 0 ]
+        
 
         global userID
+        dict={'userName':userID,'search':search,prediction:temp[ "Forecast" ][ 0 ]}
         response = requests.get('http://localhost:4321/users/'+userID)
         print(response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
