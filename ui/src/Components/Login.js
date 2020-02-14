@@ -11,7 +11,7 @@ class Login extends Component {
             features: false,
             uname: "",
             password: "",
-            search: "",
+            search: "Bloomington Indiana USA KIND",
             prediction: "",
             history:""
 
