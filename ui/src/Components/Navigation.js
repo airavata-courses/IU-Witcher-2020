@@ -1,20 +1,18 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
+import Button from 'react-bootstrap/Button'
 
 class Navigation extends Component {
 
     render() {
         return (
             <div>
-                <center>
-                    <NavLink to="/">
-                        <button >Login</button>
-                    </NavLink>
-                    <NavLink to="/signup">
-                        <button >Signup</button>
-                    </NavLink>
-                </center>
-
+                <NavLink to="/">
+                    <Button >Login</Button>
+                </NavLink>
+                <NavLink to="/signup">
+                    <Button >Signup</Button>
+                </NavLink>
             </div>
         )
     }
