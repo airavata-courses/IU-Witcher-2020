@@ -7,7 +7,7 @@ const usersRouter = require('./routes/users')
 // const historiesRouter = require('./routes/histories')
 
 //db connection
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true})
+mongoose.connect('mongodb://mongo:27017/ads-project', {useNewUrlParser: true})
 const db = mongoose.connection
 db.on('error', err => console.log(err))
 db.once('open', () => console.log('Connected to database!'))
