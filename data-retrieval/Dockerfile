@@ -9,4 +9,4 @@ RUN python setup.py build_ext --inplace
 EXPOSE 5001
 
 ENTRYPOINT ["python"]
-CMD ["app.py"]
+CMD ["data_retrieval.py"]

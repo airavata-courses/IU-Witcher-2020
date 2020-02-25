@@ -1,14 +1,12 @@
-FROM alpine:3.7
+FROM python:3.6
 
-RUN apk add --no-cache python3-dev \
-    && pip3 install --upgrade pip
+WORKDIR /app
+ADD . /app
+RUN pip install -r requirements.txt
 
-WORKDIR /app/post-processing
-
-COPY . /app/post-processing
-
-RUN pip3 --no-cache-dir install -r requirements.txt
+RUN python setup.py build_ext --inplace
 
 EXPOSE 5003
 
-CMD ["python3", "post_processing.py"]
+ENTRYPOINT ["python"]
+CMD ["post_processing.py"]
