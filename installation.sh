@@ -1,0 +1,14 @@
+cd data-retrieval/
+bash installation.sh
+cd post-processing/
+bash installation.sh
+cd api-gateway/
+bash installation.sh
+cd model-execution/
+bash installation.sh
+cd session-management/
+bash installation.sh
+cd ui/
+bash installation.sh
+cd user-management/
+bash installation.sh
