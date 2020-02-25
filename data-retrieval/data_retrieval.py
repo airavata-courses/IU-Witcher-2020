@@ -5,12 +5,12 @@ import json
 from datetime import date
 
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from numpy import ma
 
-from metpy.cbook import get_test_data
+# from metpy.cbook import get_test_data
 from metpy.io.nexrad import Level2File
-from metpy.plots import ctables
+# from metpy.plots import ctables
 
 import boto3
 import botocore
@@ -27,8 +27,13 @@ channel.queue_declare(queue='data_retrieval_2_model_execution')
 channel.queue_declare(queue='gateway_2_data_retrieval')
 
 def data_extraction( user_site , curr_date ) :
-    s3 = boto3.resource('s3', config=Config(signature_version=botocore.UNSIGNED,
-                                        user_agent_extra='Resource'))
+    s3 = boto3.resource(
+        's3',
+         config = Config(
+            signature_version = botocore.UNSIGNED,
+            user_agent_extra = 'Resource'
+        )
+    )
     bucket = s3.Bucket('noaa-nexrad-level2')
     # making list of dates [ yyyy , mm , dd ]
     curr_date = str( curr_date ).split( '-' )
