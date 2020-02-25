@@ -1,17 +1,12 @@
-FROM alpine:3.7
+FROM python:3.6
 
-RUN apk add --no-cache python3-dev \
-    && pip3 install --upgrade pip
+WORKDIR /app
+ADD . /app
+RUN pip install -r requirements.txt
 
-WORKDIR /app/data-retrieval
-
-COPY . .
-
-RUN pip3 install -r requirements.txt
+RUN python setup.py build_ext --inplace
 
 EXPOSE 5001
 
-CMD ["python3", "data_retrieval.py"]
-
-
-
+ENTRYPOINT ["python"]
+CMD ["app.py"]

@@ -6,7 +6,7 @@ from datetime import date
 
 import numpy as np
 # import matplotlib.pyplot as plt
-from numpy import ma
+# from numpy import ma
 
 # from metpy.cbook import get_test_data
 from metpy.io.nexrad import Level2File
