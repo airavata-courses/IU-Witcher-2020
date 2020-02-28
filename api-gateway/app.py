@@ -117,7 +117,7 @@ def data():
         
 
         global userID
-        dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
+        dict={'userName':userID,'search':search,prediction:temp[ "Forecast" ][ 0 ]}
         response = requests.get('http://localhost:4321/users/'+userID)
         print(response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
@@ -149,4 +149,4 @@ def gethistory():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug= True )
+    app.run(debug= True )
