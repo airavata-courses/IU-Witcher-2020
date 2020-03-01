@@ -8,15 +8,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy import ma
 
-
-from metpy.cbook import get_test_data
-from metpy.io.nexrad import Level2File
 from metpy.plots import ctables , add_timestamp
 from datetime import datetime
 
 import boto
 import boto3
-import botocore
 import boto.s3
 from boto.s3.key import Key
 from botocore.client import Config

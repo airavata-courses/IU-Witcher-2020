@@ -7,14 +7,14 @@ ENV LANG en_US.utf8
 RUN apt-get update && apt-get install -y \
     python3-pip
 
-WORKDIR /data-retrieval
+WORKDIR /post_processing
 
-COPY . /data-retrieval
+COPY . /post_processing
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 RUN pip3 --no-cache-dir install -r requirements.txt
 
-EXPOSE 5003
+EXPOSE 5009
 
 CMD python3 -f data_retrieval.py

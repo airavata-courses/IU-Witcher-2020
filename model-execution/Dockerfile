@@ -9,9 +9,6 @@ COPY . /app/model-execution
 
 RUN pip3 --no-cache-dir install -r requirements.txt
 
-EXPOSE 5002
+EXPOSE 5004
 
 CMD ["python3", "model_execution.py"]
-
-
-
