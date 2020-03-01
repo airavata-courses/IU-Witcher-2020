@@ -79,15 +79,14 @@ def sending( user_data ) :
     channel.basic_publish(exchange='', routing_key='data_retrieval_2_model_execution', body = json.dumps( forecast_processing ) )
     connection.close()
 
-while True :
-    def callback(ch, method, properties, body):
-        # calling the sending process
-        sending( body )
-        print(" [x] Received %r" % body)
-    # consuming process
-    channel.basic_consume(
-        queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
+def callback(ch, method, properties, body):
+    # calling the sending process
+    sending( body )
+    print(" [x] Received %r" % body)
+# consuming process
+channel.basic_consume(
+    queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
 
-    print(' [*] Waiting for messages. To exit press CTRL+C')
-    # start consuming process
-    channel.start_consuming()
+print(' [*] Waiting for messages. To exit press CTRL+C')
+# start consuming process
+channel.start_consuming()
