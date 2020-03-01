@@ -5,12 +5,7 @@ import json
 from datetime import date
 
 import numpy as np
-<<<<<<< HEAD
 from numpy import ma
-=======
-# import matplotlib.pyplot as plt
-# from numpy import ma
->>>>>>> 00abc3df922bc8b31a7452b8764df22dbfc4fbf4
 
 from metpy.io.nexrad import Level2File
 

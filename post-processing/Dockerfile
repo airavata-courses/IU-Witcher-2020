@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 FROM debian:latest
 
 RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
@@ -19,17 +18,3 @@ RUN pip3 --no-cache-dir install -r requirements.txt
 EXPOSE 5009
 
 CMD python3 -f data_retrieval.py
-=======
-FROM python:3.6
-
-WORKDIR /app
-ADD . /app
-RUN pip install -r requirements.txt
-
-RUN python setup.py build_ext --inplace
-
-EXPOSE 5003
-
-ENTRYPOINT ["python"]
-CMD ["post_processing.py"]
->>>>>>> 00abc3df922bc8b31a7452b8764df22dbfc4fbf4
