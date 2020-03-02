@@ -5,12 +5,9 @@ import json
 from datetime import date
 
 import numpy as np
-# import matplotlib.pyplot as plt
-# from numpy import ma
+from numpy import ma
 
-# from metpy.cbook import get_test_data
 from metpy.io.nexrad import Level2File
-# from metpy.plots import ctables
 
 import boto3
 import botocore
@@ -86,7 +83,6 @@ def callback(ch, method, properties, body):
     # calling the sending process
     sending( body )
     print(" [x] Received %r" % body)
-
 # consuming process
 channel.basic_consume(
     queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
