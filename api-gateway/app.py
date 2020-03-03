@@ -8,44 +8,23 @@ import json
 import pika
 import requests
 
-# connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-# channel = connection.channel()
-# channel.queue_declare(queue='hello')
-# channel.basic_publish(exchange='',
-#                       routing_key='hello',
-#                       body='Hello World!')
-# print(" [x] Sent 'Hello World!'")
-# connection.close()
 
 userID=''
 
-@app.route('/',methods=['POST','GET'])
+@app.route('/',methods=['GET'])
 def indexPage():
-    if request.method == 'POST':
-        uname=request.form['uname']
-        password=request.form['password']
-        content = urllib.request.urlopen('http://localhost/WeatherAppLogin.php?uname='+uname+'&password='+password).read().decode('utf-8')
-        print('response from php: ', content)
-        if content=="True":
-            return "Successfully logged in"
-        else:
-            return "Wrong Password"
-
+    uname=request.args.get('uname')
+    password=request.args.get('password')
+    content = urllib.request.urlopen(
+        'http://phpserver?uname=' + uname + '&password=' + password).read().decode('utf-8')
+    print('response from php: ',content)
+    if "True" in content:
+        global userID
+        userID = uname
+        print("userId after logged in",userID)
+        return "Successfully logged in"
     else:
-        uname=request.args.get('uname')
-        password=request.args.get('password')
-        #return "logged in"
-        #return "get method %S "% user
-        content = urllib.request.urlopen(
-            'http://localhost/WeatherAppLogin.php?uname=' + uname + '&password=' + password).read().decode('utf-8')
-        print('response from php: ', content)
-        if content == "True":
-            global userID
-            userID = uname
-            print("userId after logged in",userID)
-            return "Successfully logged in"
-        else:
-            return "Wrong Password"
+        return "Wrong Password"
 
 @app.route('/signup',methods=['POST','GET'])
 def signupPage():
@@ -149,4 +128,4 @@ def gethistory():
 
 
 if __name__ == '__main__':
-    app.run(debug= True )
+    app.run(debug= True,host='0.0.0.0' )
