@@ -16,7 +16,7 @@ def indexPage():
     uname=request.args.get('uname')
     password=request.args.get('password')
     content = urllib.request.urlopen(
-        'http://localhost:8100?uname=' + uname + '&password=' + password).read().decode('utf-8')
+        'http://phpserver?uname=' + uname + '&password=' + password).read().decode('utf-8')
     print('response from php: ',content)
     if "True" in content:
         global userID
@@ -128,4 +128,4 @@ def gethistory():
 
 
 if __name__ == '__main__':
-    app.run(debug= True )
+    app.run(debug= True,host='0.0.0.0' )
