@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
-import Button from 'react-bootstrap/Button'
+
 
 class Navigation extends Component {
 
@@ -8,10 +8,10 @@ class Navigation extends Component {
         return (
             <div>
                 <NavLink to="/">
-                    <Button >Login</Button>
+                    <button >Login</button>
                 </NavLink>
                 <NavLink to="/signup">
-                    <Button >Signup</Button>
+                    <button >Signup</button>
                 </NavLink>
             </div>
         )
