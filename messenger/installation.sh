@@ -1,3 +1,3 @@
-docker pull rabbitmq:3-management
+docker build -t srajpal/ads-messenger:1.0 .
 
-docker run -d -p 8004:15672 -p 8003:5672 --name rabbitmq-server rabbitmq:3-management
+docker run -it -d --name mess_rabbit -p 5007:5007 srajpal/ads-messenger:1.0 /bin/sh
