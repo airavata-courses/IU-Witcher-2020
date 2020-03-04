@@ -49,8 +49,6 @@ class Login extends Component {
             // always executed
         });
 
-        axios.put('http://127.0.0.1:5000/data', {userName: this.state.uname, search: 'bloom ind usa kind'})
-            .then((resp) => console.log('put resp', resp))
     }
 
     login = (event) => {
