@@ -15,7 +15,7 @@ from botocore.client import Config
 
 # establishing connection to RabbitMQ server
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost'))
+    pika.ConnectionParameters(host ='http://mess_rabbt' ))
 channel = connection.channel()
 
 # declaring receiving queue
