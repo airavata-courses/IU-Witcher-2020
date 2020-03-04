@@ -51,19 +51,15 @@ def signupPage():
         else:
             return "User Already Exists"
 
-@app.route('/data',methods=['POST','GET','PUT'])
+@app.route('/data',methods=['GET'])
 def data():
-    if request.method == 'POST':
-        user_data=json.dumps(request.form['search'])
-
-    elif request.method == 'PUT':
-        user_data = json.dumps(request.form)
-        print('user data', user_data)
-
-    else:
         search=request.args.get('search')
         print(request.args.get('search'))
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        credentials = pika.PlainCredentials(username='guest', password='guest')
+        connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host='rabbitmq-server', port=5672, credentials=credentials))
+        #connection = pika.BlockingConnection(pika.ConnectionParameters('http://rabbitMq'))
+        print(connection)
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
         channel.queue_declare(queue='post_processing_2_gateway')
@@ -91,28 +87,10 @@ def data():
 
 
         # check if user entry exists in mongodb
-        
-        url = "http://localhost:4321/users"
-        
 
-        global userID
-        dict={'userName':userID,'search':search,prediction:temp[ "Forecast" ][ 0 ]}
-        response = requests.get('http://localhost:4321/users/'+userID)
-        print(response.content)
-        res_dict = json.loads(response.content.decode('utf-8'))
-        
-        if 'userName' in res_dict:
-            r=requests.put(url,json=dict)
-            print("put request",r.content)
-            #r = json.loads(r.content.decode('utf-8'))     
-        else:
-            r = requests.post(url,json=dict)
-            print("post request",r.content)
-            #r = json.loads(r.content.decode('utf-8'))
+        #url = "http://localhost:4321/users"
+        return str(temp["Forecast"][0])
 
-        # put request to update user searches
-
-        return str(temp[ "Forecast" ][ 0 ])
 
 @app.route('/history',methods=['POST','GET','PUT'])
 def gethistory():
