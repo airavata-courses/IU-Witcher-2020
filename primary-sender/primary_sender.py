@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 import pika
 import json
+import time
+
+time.sleep( 10 )
 
 credentials = pika.PlainCredentials(username='guest', password='guest')
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host = '172.17.0.2' , port=5672, credentials=credentials))
+            host = 'rabbit' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 channel.queue_declare(queue='gateway_2_data_retrieval')

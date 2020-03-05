@@ -12,11 +12,14 @@ from metpy.io.nexrad import Level2File
 import boto3
 import botocore
 from botocore.client import Config
+import time
+
+time.sleep( 10 )
 
 # establishing connection to RabbitMQ server
 credentials = pika.PlainCredentials(username='guest', password='guest')
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host = '172.17.0.2' , port=5672, credentials=credentials))
+            host = 'rabbit' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue

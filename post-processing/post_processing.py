@@ -17,10 +17,15 @@ import boto.s3
 from boto.s3.key import Key
 from botocore.client import Config
 
+import time
+
+time.sleep( 10 )
+
+
 # establishing connection to RabbitMQ server
 credentials = pika.PlainCredentials(username='guest', password='guest')
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host = '172.17.0.2' , port=5672, credentials=credentials))
+            host = 'rabbit' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue
@@ -33,7 +38,10 @@ def hosting( ) :
     # Uncomment this
     #AWS_ACCESS_KEY_ID = Your AWS Acess Key ID
     #AWS_SECRET_ACCESS_KEY = Your AWS SECRET KEY
-    
+
+    AWS_ACCESS_KEY_ID = 'AKIAIEKOVHQ75BCBM6VA'
+    AWS_SECRET_ACCESS_KEY = 'WVz40PWe2d754wiWYoG35EaUjR+cwexOTU8gd+ar'
+
     # using predefined bucket in AWS
     bucket_name = AWS_ACCESS_KEY_ID.lower() + '-dump'
     conn = boto.connect_s3(AWS_ACCESS_KEY_ID,

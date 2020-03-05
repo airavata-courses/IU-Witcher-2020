@@ -7,10 +7,13 @@ import urllib.request, json
 
 appid_key = "e125e10d5beec79d36fd71a90cdc590c"
 
+import time
+time.sleep( 10 )
+
 # establishing connection to RabbitMQ server
 credentials = pika.PlainCredentials(username='guest', password='guest')
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host = '172.17.0.2' , port=5672, credentials=credentials))
+            host = 'rabbit' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue
