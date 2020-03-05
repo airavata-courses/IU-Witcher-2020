@@ -8,8 +8,9 @@ import urllib.request, json
 appid_key = "e125e10d5beec79d36fd71a90cdc590c"
 
 # establishing connection to RabbitMQ server
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='http://mess_rabbt'))
+credentials = pika.PlainCredentials(username='guest', password='guest')
+connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host = '172.17.0.2' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue
@@ -61,7 +62,7 @@ def sending( user_data ) :
     # sending the merged data
     channel.basic_publish( exchange='', routing_key='model_execution_2_post_processing', body=user_data)
     print(" [x] Sent 'Hello World!'")
-    connection.close()
+    #connection.close()
 
 def callback(ch, method, properties, body):
     # making it dictionary

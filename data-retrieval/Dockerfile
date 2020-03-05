@@ -11,10 +11,8 @@ WORKDIR /data-retrieval
 
 COPY . /data-retrieval
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
-
 RUN pip3 --no-cache-dir install -r requirements.txt
 
-EXPOSE 5003
+EXPOSE 5001
 
-CMD python3 -f data_retrieval.py
+CMD [ "python3" , "data_retrieval.py" ]

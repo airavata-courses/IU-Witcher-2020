@@ -7,12 +7,12 @@ ENV LANG en_US.utf8
 RUN apt-get update && apt-get install -y \
     python3-pip
 
-WORKDIR /post_processing
+WORKDIR /final-receiver
 
-COPY . /post_processing
+COPY . /final-receiver
 
 RUN pip3 --no-cache-dir install -r requirements.txt
 
-EXPOSE 5003
+EXPOSE 5011
 
-CMD [ "python3" , "post_processing.py" ]
+CMD [ "python3" , "final_receiver.py" ]

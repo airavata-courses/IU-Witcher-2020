@@ -11,11 +11,8 @@ WORKDIR /app/model-execution
 
 COPY . /app/model-execution
 
-
-ENTRYPOINT ["tail", "-f", "/dev/null"]
-
 RUN pip3 --no-cache-dir install -r requirements.txt
 
-EXPOSE 5004
+EXPOSE 5002
 
-CMD ["python3", "model_execution.py"]
+CMD [ "python3" , "model_execution.py" ]

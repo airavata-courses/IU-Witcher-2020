@@ -18,8 +18,9 @@ from boto.s3.key import Key
 from botocore.client import Config
 
 # establishing connection to RabbitMQ server
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='http://mess_rabbt'))
+credentials = pika.PlainCredentials(username='guest', password='guest')
+connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host = '172.17.0.2' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue
@@ -32,7 +33,7 @@ def hosting( ) :
     # Uncomment this
     #AWS_ACCESS_KEY_ID = Your AWS Acess Key ID
     #AWS_SECRET_ACCESS_KEY = Your AWS SECRET KEY
-
+    
     # using predefined bucket in AWS
     bucket_name = AWS_ACCESS_KEY_ID.lower() + '-dump'
     conn = boto.connect_s3(AWS_ACCESS_KEY_ID,
@@ -100,7 +101,7 @@ def sending( user_data ) :
     # sending the merged data
     channel.basic_publish(exchange='', routing_key='post_processing_2_gateway', body=json.dumps( user_data ))
     print(" [x] Sent 'Hello World!'")
-    connection.close()
+    #connection.close()
 
 def callback(ch, method, properties, body):
     # calling the sending process
