@@ -13,7 +13,7 @@ import boto3
 import botocore
 from botocore.client import Config
 import time
-
+# time to start rabbitmq server
 time.sleep( 10 )
 
 # establishing connection to RabbitMQ server
@@ -44,6 +44,7 @@ def data_extraction( user_site , curr_date ) :
     # iterating through all the elements in the list
     # temporary variable
     temp2 = ''
+    curr_date = [ "2020" , "02" , "05" ]
     for obj in bucket.objects.filter(Prefix= ( curr_date[ 0 ] + '/' + curr_date[ 1 ] + '/' + curr_date[ 2 ] + '/' + user_site + '/' \
                         + user_site + curr_date[ 0 ] + curr_date[ 1 ] + curr_date[ 2 ] + '_' ) ):#'2017/01/01/KTLX/KTLX20170101_'):
         #f = Level2File(obj.get()[ 'Body' ])
@@ -81,16 +82,31 @@ def sending( user_data ) :
     forecast_processing = { "Processing" : plot_details , "User" : user_data }
     # sending the merged data
     channel.basic_publish(exchange='', routing_key='data_retrieval_2_model_execution', body = json.dumps( forecast_processing ) )
-    #connection.close()
+    connection.close()
 
 def callback(ch, method, properties, body):
     # calling the sending process
     sending( body )
     print(" [x] Received %r" % body)
 # consuming process
-channel.basic_consume(
-    queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
-
-print(' [*] Waiting for messages. To exit press CTRL+C')
-# start consuming process
-channel.start_consuming()
+# print( "data Retrv" )
+# channel.basic_consume(
+#     queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
+#
+# print(' [*] Waiting for messages. To exit press CTRL+C')
+# # start consuming process
+# channel.start_consuming()
+while True :
+    channel.basic_consume(
+        queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
+    channel.start_consuming()
+    #time.sleep( 5 )
+    print( "Data retrieval" )
+    connection = pika.BlockingConnection(pika.ConnectionParameters(
+                host = 'rabbit' , port=5672, credentials=credentials))
+    channel = connection.channel()
+#
+#     # declaring receiving queue
+#     channel.queue_declare(queue='data_retrieval_2_model_execution')
+#     # declaring sending queue
+#     channel.queue_declare(queue='gateway_2_data_retrieval')

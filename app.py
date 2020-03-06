@@ -83,12 +83,11 @@ def data():
 
     else:
         search=request.args.get('search')
-        print( "Search " , request.args.get('search'))
-        credentials = pika.PlainCredentials(username='guest', password='guest')
-        connection = pika.BlockingConnection(pika.ConnectionParameters(
-                    host = 'rabbit' , port=5672, credentials=credentials))
+        print(request.args.get('search'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
+        channel.queue_declare(queue='post_processing_2_gateway')
 
         user_data=json.dumps(request.args.get('search'))
         #user_data = json.dumps("Bloomington Indiana USA KIND")
@@ -98,38 +97,35 @@ def data():
             global temp
             temp = body
             temp=json.loads(temp)
-            print( "Forecast" , temp[ "Forecast" ][ 0 ] )
-            #return str(temp[ "Forecast" ][ 0 ])
-            #return str(temp[ "Forecast" ][ 0 ])
+            print( temp[ "Forecast" ][ 0 ] )
             connection.close()
 
             #print(" [x] Received %r" % body)
-        print( "About to publish" )
+
         channel.basic_publish(exchange='', routing_key='gateway_2_data_retrieval', body=user_data)
-        channel.queue_declare(queue='post_processing_2_gateway')
-        print( "Publish" )
+
         channel.basic_consume(
             queue='post_processing_2_gateway', on_message_callback=callback, auto_ack=True)
 
         print(' [*] Waiting for messages. To exit press CTRL+C')
         channel.start_consuming()
-        return str(temp[ "Forecast" ][ 0 ])
+
 
         # check if user entry exists in mongodb
-
+        
         url = "http://localhost:4321/users"
-
+        
 
         global userID
-        dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
+        dict={'userName':userID,'search':search,prediction:temp[ "Forecast" ][ 0 ]}
         response = requests.get('http://localhost:4321/users/'+userID)
-        print( "Content" , response.content)
+        print(response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
-
+        
         if 'userName' in res_dict:
             r=requests.put(url,json=dict)
             print("put request",r.content)
-            #r = json.loads(r.content.decode('utf-8'))
+            #r = json.loads(r.content.decode('utf-8'))     
         else:
             r = requests.post(url,json=dict)
             print("post request",r.content)
@@ -145,10 +141,12 @@ def gethistory():
         url = "http://localhost:4321/users"
         global userID
         response = requests.get('http://localhost:4321/users/'+userID)
-        print("Get response" ,response.content)
+        print(response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
 
         return str(res_dict)
 
+
+
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0' , debug= True )
+    app.run(debug= True )

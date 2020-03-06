@@ -8,6 +8,7 @@ import urllib.request, json
 appid_key = "e125e10d5beec79d36fd71a90cdc590c"
 
 import time
+# time to start rabbitmq server
 time.sleep( 10 )
 
 # establishing connection to RabbitMQ server
@@ -65,7 +66,7 @@ def sending( user_data ) :
     # sending the merged data
     channel.basic_publish( exchange='', routing_key='model_execution_2_post_processing', body=user_data)
     print(" [x] Sent 'Hello World!'")
-    #connection.close()
+    connection.close()
 
 def callback(ch, method, properties, body):
     # making it dictionary
@@ -77,8 +78,22 @@ def callback(ch, method, properties, body):
     # calling the sending process
     sending( json.dumps( all_data ) )
 
-channel.basic_consume(
-    queue='data_retrieval_2_model_execution', on_message_callback=callback, auto_ack=True)
-
-print(' [*] Waiting for messages. To exit press CTRL+C')
-channel.start_consuming()
+# print( "Model exec" )
+# channel.basic_consume(
+#     queue='data_retrieval_2_model_execution', on_message_callback=callback, auto_ack=True)
+#
+# print(' [*] Waiting for messages. To exit press CTRL+C')
+# channel.start_consuming()
+while True :
+    channel.basic_consume(
+        queue='data_retrieval_2_model_execution', on_message_callback=callback, auto_ack=True)
+    channel.start_consuming()
+    print( "Model Executed" )
+    connection = pika.BlockingConnection(pika.ConnectionParameters(
+                host = 'rabbit' , port=5672, credentials=credentials))
+    channel = connection.channel()
+#
+#     # declaring receiving queue
+#     channel.queue_declare(queue='data_retrieval_2_model_execution')
+#     # declaring sending queue
+#     channel.queue_declare(queue='model_execution_2_post_processing')

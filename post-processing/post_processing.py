@@ -19,6 +19,7 @@ from botocore.client import Config
 
 import time
 
+# time to start rabbitmq server
 time.sleep( 10 )
 
 
@@ -39,8 +40,8 @@ def hosting( ) :
     #AWS_ACCESS_KEY_ID = Your AWS Acess Key ID
     #AWS_SECRET_ACCESS_KEY = Your AWS SECRET KEY
 
-    AWS_ACCESS_KEY_ID = 'AKIAIEKOVHQ75BCBM6VA'
-    AWS_SECRET_ACCESS_KEY = 'WVz40PWe2d754wiWYoG35EaUjR+cwexOTU8gd+ar'
+    AWS_ACCESS_KEY_ID = 'AKIAJ22HE5TX46NA33GA'
+    AWS_SECRET_ACCESS_KEY = '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'
 
     # using predefined bucket in AWS
     bucket_name = AWS_ACCESS_KEY_ID.lower() + '-dump'
@@ -76,6 +77,7 @@ def plotting( plot_data ) :
     # acessing dictionary data and making it into numpy
     # arrays so that it can be used for doing mathemtical operations
     # and plotting values
+    return "https://akiaiphw3bwx2yojao4a-dump.s3.amazonaws.com/mytestfile"
     ref_range = np.array( plot_data[ "ref_range" ] )
     rho_range = np.array( plot_data[ "rho_range" ] )
     ref = np.array( plot_data[ "ref" ] )
@@ -100,25 +102,43 @@ def plotting( plot_data ) :
     fig.suptitle( 'Minimum and Maximum range of Reflectivity' )
     # saving the file to be used in future
     plt.savefig( "Reflectivity_Correlation.png" )
+    #return "https://akiaiphw3bwx2yojao4a-dump.s3.amazonaws.com/mytestfile"
     return hosting( )
 
 def sending( user_data ) :
     x = plotting( json.loads( user_data )[ "Processing" ] )
+    print( "X" , x )
     user_data = json.loads( user_data )
     user_data[ "url" ] = x
     # sending the merged data
+    print( "About to send" )
     channel.basic_publish(exchange='', routing_key='post_processing_2_gateway', body=json.dumps( user_data ))
     print(" [x] Sent 'Hello World!'")
-    #connection.close()
+    connection.close()
 
 def callback(ch, method, properties, body):
     # calling the sending process
     sending( body )
 
-# consming process
-channel.basic_consume(
-    queue='model_execution_2_post_processing', on_message_callback=callback, auto_ack=True)
-
-print(' [*] Waiting for messages. To exit press CTRL+C')
-# start consuming process
-channel.start_consuming()
+# print( "Post proc" )
+# # consming process
+# channel.basic_consume(
+#     queue='model_execution_2_post_processing', on_message_callback=callback, auto_ack=True)
+#
+# print(' [*] Waiting for messages. To exit press CTRL+C')
+# # start consuming process
+# channel.start_consuming()
+while True :
+    channel.basic_consume(
+        queue='model_execution_2_post_processing', on_message_callback=callback, auto_ack=True)
+    channel.start_consuming()
+    print( "Post processed" )
+    #time.sleep( 5 )
+    connection = pika.BlockingConnection(pika.ConnectionParameters(
+                host = 'rabbit' , port=5672, credentials=credentials))
+    channel = connection.channel()
+#
+#     # declaring receiving queue
+#     channel.queue_declare(queue='model_execution_2_post_processing')
+#     # declaring sending queue
+#     channel.queue_declare(queue='post_processing_2_gateway')
