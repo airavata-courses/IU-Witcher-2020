@@ -12,10 +12,14 @@ from metpy.io.nexrad import Level2File
 import boto3
 import botocore
 from botocore.client import Config
+import time
+
+time.sleep( 10 )
 
 # establishing connection to RabbitMQ server
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost'))
+credentials = pika.PlainCredentials(username='guest', password='guest')
+connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host = 'rabbit' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue
@@ -77,7 +81,7 @@ def sending( user_data ) :
     forecast_processing = { "Processing" : plot_details , "User" : user_data }
     # sending the merged data
     channel.basic_publish(exchange='', routing_key='data_retrieval_2_model_execution', body = json.dumps( forecast_processing ) )
-    connection.close()
+    #connection.close()
 
 def callback(ch, method, properties, body):
     # calling the sending process

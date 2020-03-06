@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+
+  # RabbitMQ
+    rabbit:
+      hostname: rabbit
+      image: rabbitmq
+      ports:
+        - "5674:5672"  # we forward this port because it's useful for debugging
+        - "15674:15672"  # here, we can access rabbitmq management plugin
+
+    final_recv :
+      build : "./final-reciever"
+      hostname : final_recv
+      image : final_recv_image
+      ports :
+        - "5005:5005"
+      depends_on :
+        - rabbit
+
+    post_proc :
+      build : "./post-processing"
+      hostname : post_proc
+      image : post_proc_image
+      ports :
+        - "5004:5004"
+      depends_on :
+        - rabbit
+
+    model_exec :
+      build : "./model-execution"
+      hostname : model_exec
+      image : model_exec_image
+      ports :
+        - "5003:5003"
+      depends_on :
+        - rabbit
+
+    data_retrv :
+      build : "./data-retrieval"
+      hostname : data_retrv
+      image : data_retrv_image
+      ports :
+        - "5002:5002"
+      depends_on :
+        - rabbit
+
+    prim_send :
+      build : "./primary-sender"
+      hostname : prim_send
+      image : prim_send_image
+      ports :
+        - "5001:5001"
+      depends_on :
+        - rabbit
+      #links :
+      #  rabbit
+      #links : [ "rabbit" ]
+
+  #   links: ["rabbit"]
+  # #Data Processing WS
+  # web:
+  #  build: .
+  #  # command: python manage.py runserver 0.0.0.0:9060 --noreload
+  #   volumes:
+  #     - .:/srv
+  #  ports:
+  #     - "9060:9060"
+  #   links: ["rabbit"]

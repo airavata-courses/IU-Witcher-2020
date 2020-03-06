@@ -17,9 +17,15 @@ import boto.s3
 from boto.s3.key import Key
 from botocore.client import Config
 
+import time
+
+time.sleep( 10 )
+
+
 # establishing connection to RabbitMQ server
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost'))
+credentials = pika.PlainCredentials(username='guest', password='guest')
+connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host = 'rabbit' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue
@@ -100,7 +106,7 @@ def sending( user_data ) :
     # sending the merged data
     channel.basic_publish(exchange='', routing_key='post_processing_2_gateway', body=json.dumps( user_data ))
     print(" [x] Sent 'Hello World!'")
-    connection.close()
+    #connection.close()
 
 def callback(ch, method, properties, body):
     # calling the sending process

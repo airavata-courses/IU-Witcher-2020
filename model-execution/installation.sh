@@ -1,3 +1,3 @@
-docker build -t srajpal/ads-model-execution:1.0 .
+docker build -t model_exec_id .
 
-docker run -it -d -p 5002:5002 srajpal/ads-model-execution:1.0 /bin/sh
+docker run --name model_exec -p 5002:5002 model_exec_id

@@ -1,3 +1,3 @@
-docker build -t srajpal/ads-post-processing:1.0 .
+docker build -t post_proc_id .
 
-docker run -it -d -p 5003:5003 srajpal/ads-post-processing:1.0 /bin/sh
+docker run --name post_proc -p 5003:5003 post_proc_id

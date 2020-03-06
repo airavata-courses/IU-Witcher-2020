@@ -7,12 +7,12 @@ FROM debian:latest
 RUN apt-get update && apt-get install -y \
     python3-pip
 
-WORKDIR /data-retrieval
+WORKDIR /final-receiver
 
-COPY . /data-retrieval
+COPY . /final-receiver
 
 RUN pip3 --no-cache-dir install -r requirements.txt
 
-EXPOSE 5002
+EXPOSE 5005
 
-CMD [ "python3" , "data_retrieval.py" ]
+CMD [ "python3" , "final_receiver.py" ]
