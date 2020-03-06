@@ -6,7 +6,7 @@ services:
   db:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: test_db
       MYSQL_USER: devuser
       MYSQL_PASSWORD: devpass
