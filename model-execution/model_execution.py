@@ -9,7 +9,7 @@ appid_key = "e125e10d5beec79d36fd71a90cdc590c"
 
 import time
 # time to start rabbitmq server
-time.sleep( 10 )
+time.sleep( 5 )
 
 # establishing connection to RabbitMQ server
 credentials = pika.PlainCredentials(username='guest', password='guest')

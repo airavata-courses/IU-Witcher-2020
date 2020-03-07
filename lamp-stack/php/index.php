@@ -6,6 +6,9 @@ $db='test_db';
 
 $conn = mysqli_connect($host, $user, $password, $db);
 
+// if($conn){
+// 	echo "connection established";
+// }
 
 $sql="CREATE TABLE IF NOT EXISTS userlogin (
   userId varchar(25) NOT NULL,
@@ -14,6 +17,23 @@ $sql="CREATE TABLE IF NOT EXISTS userlogin (
 )";
 
 $res=mysqli_query($conn, $sql);
+
+// if($res){
+// 	echo "table Created";
+// }
+
+// $sql = "SELECT * FROM userlogin";
+// $result = $conn->query($sql);
+
+// if ($result->num_rows > 0) {
+//     // output data of each row
+//     while($row = $result->fetch_assoc()) {
+//         echo "id: " . $row["userId"]. " - Name: " . $row["Password"]. "<br>";
+//     }
+// } else {
+//     echo "0 results";
+// }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -26,7 +46,7 @@ if(mysqli_query($conn, $sql))
             echo "User Created Successfully";
         }
     else{
-            echo "Error";
+            echo mysqli_error($conn);
     	}
 }
 

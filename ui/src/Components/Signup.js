@@ -35,7 +35,7 @@ class Signup extends Component {
         //     });
 
 
-        axios.get('http://api_gate/signup?uname='+this.state.uname+'&password='+this.state.password)
+        axios.get('http://localhost:5000/signup?uname='+this.state.uname+'&password='+this.state.password)
             .then( (response)=> {
                 // handle success
                 console.log(response);

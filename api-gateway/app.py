@@ -46,19 +46,21 @@ def signupPage():
     content = urllib.request.urlopen(
         'http://phpserver/',params).read().decode('utf-8')
     print('response from php: ', content)
-    if content == "User Created Successfully":
+    if "Successfully" in content:
         return "Successfully Created User"
     else:
         return "User Already Exists"
 
-@app.route('/data',methods=['POST','GET','PUT'])
+@app.route('/data',methods=['POST','GET','PUT','OPTIONS'])
 def data():
     if request.method == 'POST':
         user_data=json.dumps(request.form['search'])
+        return "weather put"
 
     elif request.method == 'PUT':
         user_data = json.dumps(request.form)
         print('user data', user_data)
+        return "weather put"
 
     else:
         search=request.args.get('search')

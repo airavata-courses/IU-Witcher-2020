@@ -14,7 +14,7 @@ import botocore
 from botocore.client import Config
 import time
 # time to start rabbitmq server
-time.sleep( 10 )
+time.sleep( 5 )
 
 # establishing connection to RabbitMQ server
 credentials = pika.PlainCredentials(username='guest', password='guest')
