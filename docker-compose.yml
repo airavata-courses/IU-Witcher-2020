@@ -46,6 +46,19 @@ services:
       depends_on :
         - rabbit
 
+    # php_web:
+    #   image: php:7.2.2-apache
+    #   container_name: php_web
+    #   hostname : php_web
+    #   depends_on:
+    #     - db
+    #   volumes:
+    #     - ./lamp-stack/php/:/var/www/html/
+    #   ports:
+    #     - "8100:80"
+    #   stdin_open: true
+    #   tty: true
+
     api_gate :
       build : ./api-gateway
       hostname : api_gate
@@ -54,6 +67,17 @@ services:
         - "5000:5000"
       depends_on :
         - rabbit
+
+    # db:
+    #   image: mysql:5.7
+    #   environment:
+    #     MYSQL_ROOT_PASSWORD: root
+    #     MYSQL_DATABASE: test_db
+    #     MYSQL_USER: devuser
+    #     MYSQL_PASSWORD: devpass
+    #   ports:
+    #     - "9906:3306"
+
     #
     # prim_send :
     #   build : "./primary-sender"

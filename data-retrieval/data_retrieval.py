@@ -44,7 +44,7 @@ def data_extraction( user_site , curr_date ) :
     # iterating through all the elements in the list
     # temporary variable
     temp2 = ''
-    curr_date = [ "2020" , "02" , "05" ]
+    #curr_date = [ "2020" , "02" , "05" ]
     for obj in bucket.objects.filter(Prefix= ( curr_date[ 0 ] + '/' + curr_date[ 1 ] + '/' + curr_date[ 2 ] + '/' + user_site + '/' \
                         + user_site + curr_date[ 0 ] + curr_date[ 1 ] + curr_date[ 2 ] + '_' ) ):#'2017/01/01/KTLX/KTLX20170101_'):
         #f = Level2File(obj.get()[ 'Body' ])

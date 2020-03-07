@@ -19,58 +19,37 @@ import requests
 
 userID=''
 
-@app.route('/',methods=['POST','GET'])
-def indexPage():
-    if request.method == 'POST':
-        uname=request.form['uname']
-        password=request.form['password']
-        content = urllib.request.urlopen('http://localhost/WeatherAppLogin.php?uname='+uname+'&password='+password).read().decode('utf-8')
-        print('response from php: ', content)
-        if content=="True":
-            return "Successfully logged in"
-        else:
-            return "Wrong Password"
 
+@app.route('/',methods=['GET'])
+def indexPage():
+    uname=request.args.get('uname')
+    password=request.args.get('password')
+    params = urllib.parse.urlencode({'uname': uname, 'password': password})
+    content = urllib.request.urlopen(
+        'http://phpserver?%s' % params).read().decode('utf-8')
+    print('response from php: ',content)
+    if "True" in content:
+        global userID
+        userID = uname
+        print("userId after logged in",userID)
+        return "Successfully logged in"
     else:
-        uname=request.args.get('uname')
-        password=request.args.get('password')
-        #return "logged in"
-        #return "get method %S "% user
-        content = urllib.request.urlopen(
-            'http://localhost/WeatherAppLogin.php?uname=' + uname + '&password=' + password).read().decode('utf-8')
-        print('response from php: ', content)
-        if content == "True":
-            global userID
-            userID = uname
-            print("userId after logged in",userID)
-            return "Successfully logged in"
-        else:
-            return "Wrong Password"
+        return "Wrong Password"
 
 @app.route('/signup',methods=['POST','GET'])
 def signupPage():
-    if request.method == 'POST':
-        uname=request.form['uname']
-        password=request.form['password']
-        content = urllib.request.urlopen('http://localhost/WeatherAppSignUp.php?uname='+uname+'&password='+password).read().decode('utf-8')
-        print('response from php: ', content)
-        if content=="User Created Successfully":
-            return "Successfully Created User"
-        else:
-            return "User Already Exists"
-
+    uname=request.args.get('uname')
+    password=request.args.get('password')
+    #return "logged in"
+    #return "get method %S "% user
+    params = urllib.parse.urlencode({'uname': uname, 'password': password}).encode("utf-8")
+    content = urllib.request.urlopen(
+        'http://phpserver/',params).read().decode('utf-8')
+    print('response from php: ', content)
+    if content == "User Created Successfully":
+        return "Successfully Created User"
     else:
-        uname=request.args.get('uname')
-        password=request.args.get('password')
-        #return "logged in"
-        #return "get method %S "% user
-        content = urllib.request.urlopen(
-            'http://localhost/WeatherAppSignUp.php?uname=' + uname + '&password=' + password).read().decode('utf-8')
-        print('response from php: ', content)
-        if content == "User Created Successfully":
-            return "Successfully Created User"
-        else:
-            return "User Already Exists"
+        return "User Already Exists"
 
 @app.route('/data',methods=['POST','GET','PUT'])
 def data():

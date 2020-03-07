@@ -77,7 +77,6 @@ def plotting( plot_data ) :
     # acessing dictionary data and making it into numpy
     # arrays so that it can be used for doing mathemtical operations
     # and plotting values
-    return "https://akiaiphw3bwx2yojao4a-dump.s3.amazonaws.com/mytestfile"
     ref_range = np.array( plot_data[ "ref_range" ] )
     rho_range = np.array( plot_data[ "rho_range" ] )
     ref = np.array( plot_data[ "ref" ] )
@@ -107,7 +106,6 @@ def plotting( plot_data ) :
 
 def sending( user_data ) :
     x = plotting( json.loads( user_data )[ "Processing" ] )
-    print( "X" , x )
     user_data = json.loads( user_data )
     user_data[ "url" ] = x
     # sending the merged data

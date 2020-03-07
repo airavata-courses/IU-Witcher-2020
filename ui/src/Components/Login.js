@@ -36,8 +36,13 @@ class Login extends Component {
     }
 
     search = (event) => {
-        event.preventDefault()
-        axios.get('http://127.0.0.1:5000/data?search=' + this.state.search).then((response) => {
+        event.preventDefault();
+        axios.get('http://api_gate/data?search=' + this.state.search,{
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            }
+        })
+            .then((response) => {
             // handle success
             console.log(response);
             this.setState({prediction: response.data})
@@ -45,12 +50,8 @@ class Login extends Component {
         }).catch(function(error) {
             // handle error
             console.log(error);
-        }).then(function() {
-            // always executed
         });
 
-        axios.put('http://127.0.0.1:5000/data', {userName: this.state.uname, search: 'bloom ind usa kind'})
-            .then((resp) => console.log('put resp', resp))
     }
 
     login = (event) => {
@@ -66,8 +67,8 @@ class Login extends Component {
         //         console.log(error);
         //     });
 
-        axios.get('http://127.0.0.1:5000/?uname=' + this.state.uname + '&password=' + this.state.password).then((response) => {
-            // handle success
+        axios.get('http://api_gate?uname=' + this.state.uname + '&password=' + this.state.password).then((response) => {
+            // handle success1
             console.log(response);
             if (response.data === 'Successfully logged in') {
                 this.setState({features: true, login: false})
@@ -89,7 +90,7 @@ class Login extends Component {
     history=(event)=>{
         event.preventDefault()
 
-        axios.get('http://127.0.0.1:5000/history')
+        axios.get('http://apigateway/history')
             .then((response) => {
             // handle success
             console.log(response);
@@ -133,7 +134,7 @@ class Login extends Component {
                     <select name='search' onChange={this.setSearch} required="required">
                         <option value='Bloomington Indiana USA KIND'>
                             Bloomington Indiana USA KIND</option>
-                        <option value='Indianapolis Indiana USA KIND'>Indianapolis, Indiana, USA, KIND</option>
+                        <option value='Indianapolis Indiana USA KIND'>Indianapolis, Indiana, USA, KIND </option>
                         <option value='Boston MA USA KBOX'>Boston, MA, USA, KBOX</option>
                         <option value='Cleveland OHIO USA KCLE'>Cleveland, OHIO, USA, KCLE</option>
                         <option value='Tucson Arizona USA KEMX'>Tucson, Arizona, USA, KEMX</option>
