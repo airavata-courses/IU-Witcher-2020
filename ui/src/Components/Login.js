@@ -37,11 +37,7 @@ class Login extends Component {
 
     search = (event) => {
         event.preventDefault();
-        axios.get('http://localhost:5000/data?search=' + this.state.search,{
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-            }
-        })
+        axios.get('http://localhost:5000/data?search=' + this.state.search)
             .then((response) => {
             // handle success
             console.log(response);
