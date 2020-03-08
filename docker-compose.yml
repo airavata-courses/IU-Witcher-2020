@@ -10,15 +10,6 @@ services:
         - "5674:5672"  # we forward this port because it's useful for debugging
         - "15674:15672"  # here, we can access rabbitmq management plugin
 
-    # final_recv :
-    #   build : "./final-reciever"
-    #   hostname : final_recv
-    #   image : final_recv_image
-    #   ports :
-    #     - "5005:5005"
-    #   depends_on :
-    #     - rabbit
-
     post_proc :
       build : "./post-processing"
       hostname : post_proc
@@ -46,6 +37,26 @@ services:
       depends_on :
         - rabbit
 
+    api_gate :
+      build : ./api-gateway
+      hostname : api_gate
+      image : api_gate_way
+      ports :
+        - "5000:5000"
+      depends_on :
+        - rabbit
+      links:
+      - "php_web:phpserver"
+
+    react_ui :
+      build : "./ui"
+      hostname : react_ui
+      image : react_ui
+      ports :
+        - "3000:3000"
+      links :
+        - "api_gate:apigateway"
+
     php_web:
       image: php:7.2.2-apache
       container_name: php_web
@@ -58,26 +69,6 @@ services:
         - "8100:80"
       stdin_open: true
       tty: true
-
-    ui :
-      build : ./ui
-      hostname : react_ui
-      image : react_ui_image
-      ports :
-        - "3000:3000"
-      links:
-      - "api_gate:apigateway"
-
-    api_gate :
-      build : ./api-gateway
-      hostname : api_gate
-      image : api_gate_way
-      ports :
-        - "5000:5000"
-      depends_on :
-        - rabbit
-      links:
-      - "php_web:phpserver"
 
     db:
       image: mysql:5.7
@@ -101,14 +92,3 @@ services:
       #links :
       #  rabbit
       #links : [ "rabbit" ]
-
-  #   links: ["rabbit"]
-  # #Data Processing WS
-  # web:
-  #  build: .
-  #  # command: python manage.py runserver 0.0.0.0:9060 --noreload
-  #   volumes:
-  #     - .:/srv
-  #  ports:
-  #     - "9060:9060"
-  #   links: ["rabbit"]

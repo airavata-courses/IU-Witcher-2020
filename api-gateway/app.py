@@ -46,15 +46,16 @@ def signupPage():
     else:
         return "User Already Exists"
 
-@app.route('/data',methods=['POST','GET','PUT'])
+
+@app.route('/data',methods=['POST','GET','PUT','OPTIONS'])
 def data():
     if request.method == 'POST':
         user_data=json.dumps(request.form['search'])
-
+        return "weather put"
     elif request.method == 'PUT':
         user_data = json.dumps(request.form)
         print('user data', user_data)
-
+        return "weather put"
     else:
         search=request.args.get('search')
         print( "Search " , request.args.get('search'))
@@ -66,7 +67,6 @@ def data():
 
         user_data=json.dumps(request.args.get('search'))
         #user_data = json.dumps("Bloomington Indiana USA KIND")
-
         def callback(ch, method, properties, body):
             #sending(body)
             global temp
@@ -108,11 +108,8 @@ def data():
             r = requests.post(url,json=dict)
             print("post request",r.content)
             #r = json.loads(r.content.decode('utf-8'))
-
-        # put request to update user searches
-
         return str(temp[ "Forecast" ][ 0 ])
-
+        
 
 @app.route('/history',methods=['POST','GET','PUT'])
 def gethistory():
@@ -120,12 +117,11 @@ def gethistory():
         url = "http://localhost:4321/users"
         global userID
         response = requests.get('http://localhost:4321/users/'+userID)
-        print(response.content)
+        print("Get response" ,response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
 
         return str(res_dict)
 
-
-
 if __name__ == '__main__':
     app.run(debug= True,host='0.0.0.0')
+

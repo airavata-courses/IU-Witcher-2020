@@ -37,7 +37,9 @@ class Login extends Component {
 
     search = (event) => {
         event.preventDefault();
-        axios.get('http://localhost:5000/data?search=' + this.state.search)
+
+        axios.get('http://127.0.0.1:5000/data?search=' + this.state.search)
+
             .then((response) => {
             // handle success
             console.log(response);
@@ -64,7 +66,6 @@ class Login extends Component {
         //     });
 
         axios.get('http://localhost:5000?uname=' + this.state.uname + '&password=' + this.state.password).then((response) => {
-            // handle success
             console.log(response);
             if (response.data === 'Successfully logged in') {
                 this.setState({features: true, login: false})
@@ -76,10 +77,10 @@ class Login extends Component {
         }).catch(function(error) {
             // handle error
             console.log(error);
-        }).then(function() {
+        })//.then(function() {
 
             // always executed
-        });
+        //});
 
     }
 
@@ -127,6 +128,7 @@ class Login extends Component {
                 <br/>
                 <form onSubmit={this.search}>
                     Search:
+                    <button onclick="window.open('http://index.html')"> Predict Weather </button>
                     <select name='search' onChange={this.setSearch} required="required">
                         <option value='Bloomington Indiana USA KIND'>
                             Bloomington Indiana USA KIND</option>

@@ -56,7 +56,7 @@ class Signup extends Component {
                 // always executed
             });
 
-        
+
 
     }
 
@@ -78,7 +78,7 @@ class Signup extends Component {
                     <input type='submit'></input>
                 </form>
             </div>
-    
+
             </center>
 
             </div>

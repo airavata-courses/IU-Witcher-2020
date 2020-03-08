@@ -16,7 +16,7 @@ channel.queue_declare(queue='post_processing_2_gateway')
 def callback(ch, method, properties, body):
     print( json.loads( body )[ "url" ] )
     print( "Received" )
-    #connection.close( )
+    connection.close( )
 
 channel.basic_consume(
     queue='post_processing_2_gateway', on_message_callback=callback, auto_ack=True)
