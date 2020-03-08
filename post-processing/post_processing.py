@@ -40,9 +40,6 @@ def hosting( ) :
     #AWS_ACCESS_KEY_ID = Your AWS Acess Key ID
     #AWS_SECRET_ACCESS_KEY = Your AWS SECRET KEY
 
-    AWS_ACCESS_KEY_ID = 'AKIAJ22HE5TX46NA33GA'
-    AWS_SECRET_ACCESS_KEY = 'Ccjf6xc5GcJl89fCN1LyEtqbZl0mMOu7OuoW7ay4'
-
     # using predefined bucket in AWS
     bucket_name = AWS_ACCESS_KEY_ID.lower() + '-dump'
     conn = boto.connect_s3(AWS_ACCESS_KEY_ID,
