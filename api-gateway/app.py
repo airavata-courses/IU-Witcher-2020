@@ -41,53 +41,75 @@ def signupPage():
     content = urllib.request.urlopen(
         'http://phpserver/',params).read().decode('utf-8')
     print('response from php: ', content)
-    if content == "User Created Successfully":
+    if "Successfully" in content:
         return "Successfully Created User"
     else:
         return "User Already Exists"
 
-
-
-
-@app.route('/data', methods=['POST', 'OPTIONS','GET'])
+@app.route('/data',methods=['POST','GET','PUT','OPTIONS'])
 def data():
-    search=request.args.get('search')
-    print(request.args.get('search'))
-    credentials = pika.PlainCredentials(username='guest', password='guest')
-    connection = pika.BlockingConnection(pika.ConnectionParameters(
-        host='172.20.0.5', port=5672, credentials=credentials))
-    #connection = pika.BlockingConnection(pika.ConnectionParameters('http://rabbitMq'))
-    #print(connection)
-    channel = connection.channel()
-    channel.queue_declare(queue='gateway_2_data_retrieval')
-    channel.queue_declare(queue='post_processing_2_gateway')
-    user_data=json.dumps(request.args.get('search'))
-    #user_data = json.dumps("Bloomington Indiana USA KIND")
+    if request.method == 'POST':
+        user_data=json.dumps(request.form['search'])
+        return "weather put"
 
-    def callback(ch, method, properties, body):
-        #sending(body)
-        global temp
-        temp = body
-        temp=json.loads(temp)
-        print( temp[ "Forecast" ][ 0 ] )
-        connection.close()
+    elif request.method == 'PUT':
+        user_data = json.dumps(request.form)
+        print('user data', user_data)
+        return "weather put"
 
-        #print(" [x] Received %r" % body)
+    else:
+        search=request.args.get('search')
+        print( "Search " , request.args.get('search'))
+        credentials = pika.PlainCredentials(username='guest', password='guest')
+        connection = pika.BlockingConnection(pika.ConnectionParameters(
+                    host = 'rabbit' , port=5672, credentials=credentials))
+        channel = connection.channel()
+        channel.queue_declare(queue='gateway_2_data_retrieval')
+        user_data=json.dumps(request.args.get('search'))
+        
+        def callback(ch, method, properties, body):
+            #sending(body)
+            global temp
+            temp = body
+            temp=json.loads(temp)
+            print( "Forecast" , temp[ "Forecast" ][ 0 ] )
+            #return str(temp[ "Forecast" ][ 0 ])
+            #return str(temp[ "Forecast" ][ 0 ])
+            connection.close()
 
-    channel.basic_publish(exchange='', routing_key='gateway_2_data_retrieval', body=user_data)
+            #print(" [x] Received %r" % body)
+        print( "About to publish" )
+        channel.basic_publish(exchange='', routing_key='gateway_2_data_retrieval', body=user_data)
+        channel.queue_declare(queue='post_processing_2_gateway')
+        print( "Publish" )
+        channel.basic_consume(
+            queue='post_processing_2_gateway', on_message_callback=callback, auto_ack=True)
 
-    channel.basic_consume(
-        queue='post_processing_2_gateway', on_message_callback=callback, auto_ack=True)
+        print(' [*] Waiting for messages. To exit press CTRL+C')
+        channel.start_consuming()
+        return str(temp[ "Forecast" ][ 0 ])
 
-    print(' [*] Waiting for messages. To exit press CTRL+C')
-    channel.start_consuming()
+        # check if user entry exists in mongodb
+
+        url = "http://localhost:4321/users"
 
 
-    # check if user entry exists in mongodb
+        global userID
+        dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
+        response = requests.get('http://localhost:4321/users/'+userID)
+        print( "Content" , response.content)
+        res_dict = json.loads(response.content.decode('utf-8'))
 
-    #url = "http://localhost:4321/users"
-    return str(temp["Forecast"][0])
-
+        if 'userName' in res_dict:
+            r=requests.put(url,json=dict)
+            print("put request",r.content)
+            #r = json.loads(r.content.decode('utf-8'))
+        else:
+            r = requests.post(url,json=dict)
+            print("post request",r.content)
+            #r = json.loads(r.content.decode('utf-8'))
+        return str(temp[ "Forecast" ][ 0 ])
+        
 
 @app.route('/history',methods=['POST','GET','PUT'])
 def gethistory():
@@ -95,12 +117,11 @@ def gethistory():
         url = "http://localhost:4321/users"
         global userID
         response = requests.get('http://localhost:4321/users/'+userID)
-        print(response.content)
+        print("Get response" ,response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
 
         return str(res_dict)
 
-
-
 if __name__ == '__main__':
     app.run(debug= True,host='0.0.0.0')
+

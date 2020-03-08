@@ -10,14 +10,14 @@ services:
         - "5674:5672"  # we forward this port because it's useful for debugging
         - "15674:15672"  # here, we can access rabbitmq management plugin
 
-    final_recv :
-      build : "./final-reciever"
-      hostname : final_recv
-      image : final_recv_image
-      ports :
-        - "5005:5005"
-      depends_on :
-        - rabbit
+    # final_recv :
+    #   build : "./final-reciever"
+    #   hostname : final_recv
+    #   image : final_recv_image
+    #   ports :
+    #     - "5005:5005"
+    #   depends_on :
+    #     - rabbit
 
     post_proc :
       build : "./post-processing"
@@ -46,14 +46,59 @@ services:
       depends_on :
         - rabbit
 
-    prim_send :
-      build : "./primary-sender"
-      hostname : prim_send
-      image : prim_send_image
+    api_gate :
+      build : "./api-gateway"
+      hostname : api_gate
+      image : api_gate_way
       ports :
-        - "5001:5001"
+        - "5000:5000"
       depends_on :
         - rabbit
+      links :
+        - "php_web:phpserver"
+
+
+    react_ui :
+      build : "./ui"
+      hostname : react_ui
+      image : react_ui
+      ports :
+        - "3000:3000"
+      links :
+        - "api_gate:apigateway"
+
+    php_web:
+      image: php:7.2.2-apache
+      container_name: php_web
+      hostname : php_web
+      depends_on:
+        - db
+      volumes:
+        - ./lamp-stack/php/:/var/www/html/
+      ports:
+        - "8100:80"
+      stdin_open: true
+      tty: true
+
+    db:
+      image: mysql:5.7
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: test_db
+        MYSQL_USER: devuser
+        MYSQL_PASSWORD: devpass
+      ports:
+        - "9906:3306"
+
+    #
+    # prim_send :
+    #   build : "./primary-sender"
+    #   hostname : prim_send
+    #   image : prim_send_image
+    #   ports :
+    #     - "5001:5001"
+    #   depends_on :
+    #     - rabbit
       #links :
       #  rabbit
       #links : [ "rabbit" ]
