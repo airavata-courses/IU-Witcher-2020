@@ -38,6 +38,7 @@ class Login extends Component {
     search = (event) => {
         event.preventDefault();
         axios.get('http://127.0.0.1:5000/data?search=' + this.state.search)
+
             .then((response) => {
             // handle success
             console.log(response);
@@ -64,7 +65,6 @@ class Login extends Component {
         //     });
 
         axios.get('http://localhost:5000?uname=' + this.state.uname + '&password=' + this.state.password).then((response) => {
-            // handle success1
             console.log(response);
             if (response.data === 'Successfully logged in') {
                 this.setState({features: true, login: false})
