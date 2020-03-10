@@ -8,3 +8,4 @@
 **/node_modules
 openstacksdk
 call-openrc.bat
+call-openrc.sh
