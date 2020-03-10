@@ -6,3 +6,5 @@
 **/venv
 **/__pycharm__
 **/node_modules
+openstacksdk
+call-openrc.bat
