@@ -37,6 +37,7 @@ class Login extends Component {
 
     search = (event) => {
         event.preventDefault();
+
         axios.get('http://127.0.0.1:5000/data?search=' + this.state.search)
 
             .then((response) => {
