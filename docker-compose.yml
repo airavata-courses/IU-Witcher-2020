@@ -58,7 +58,7 @@ services:
         - "api_gate:apigateway"
 
     php_web:
-      image: php:7.2.2-apache
+      build : ./lamp-stack
       container_name: php_web
       hostname : php_web
       depends_on:
