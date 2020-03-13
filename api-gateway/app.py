@@ -21,7 +21,7 @@ def indexPage():
     password=request.args.get('password')
     params = urllib.parse.urlencode({'uname': uname, 'password': password})
     content = urllib.request.urlopen(
-        'http://phpserver?%s' % params).read().decode('utf-8')
+        'http://phpserver?uname='+uname+'&password='+password).read().decode('utf-8')
     print('response from php: ',content)
     if "True" in content:
         global userID
@@ -39,24 +39,23 @@ def signupPage():
     #return "get method %S "% user
     params = urllib.parse.urlencode({'uname': uname, 'password': password}).encode("utf-8")
     content = urllib.request.urlopen(
-        'http://phpserver/',params).read().decode('utf-8')
+        'http://phpserver',params).read().decode('utf-8')
     print('response from php: ', content)
     if "Successfully" in content:
         return "Successfully Created User"
     else:
         return "User Already Exists"
 
+
 @app.route('/data',methods=['POST','GET','PUT','OPTIONS'])
 def data():
     if request.method == 'POST':
         user_data=json.dumps(request.form['search'])
         return "weather put"
-
     elif request.method == 'PUT':
         user_data = json.dumps(request.form)
         print('user data', user_data)
         return "weather put"
-
     else:
         search=request.args.get('search')
         print( "Search " , request.args.get('search'))
@@ -65,8 +64,9 @@ def data():
                     host = 'rabbit' , port=5672, credentials=credentials))
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
+
         user_data=json.dumps(request.args.get('search'))
-        
+        #user_data = json.dumps("Bloomington Indiana USA KIND")
         def callback(ch, method, properties, body):
             #sending(body)
             global temp

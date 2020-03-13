@@ -37,16 +37,15 @@ services:
         - rabbit
 
     api_gate :
-      build : "./api-gateway"
+      build : ./api-gateway
       hostname : api_gate
       image : api_gate_way
       ports :
         - "5000:5000"
       depends_on :
         - rabbit
-      links :
-        - "php_web:phpserver"
-
+      links:
+      - "php_web:phpserver"
 
     react_ui :
       build : "./ui"
@@ -58,7 +57,7 @@ services:
         - "api_gate:apigateway"
 
     php_web:
-      image: php:7.2.2-apache
+      build : ./lamp-stack
       container_name: php_web
       hostname : php_web
       depends_on:
