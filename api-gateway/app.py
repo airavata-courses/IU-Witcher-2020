@@ -1,21 +1,16 @@
 from flask import Flask,redirect, url_for, request, jsonify
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
+# cors = CORS(app)
 cors = CORS(app)
+
 app.config['CORS_HEADERS'] = 'Content-Type'
+
 import urllib
 import json
 import pika
 import requests
 
-# connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-# channel = connection.channel()
-# channel.queue_declare(queue='hello')
-# channel.basic_publish(exchange='',
-#                       routing_key='hello',
-#                       body='Hello World!')
-# print(" [x] Sent 'Hello World!'")
-# connection.close()
 
 userID=''
 
@@ -70,10 +65,8 @@ def data():
                     host = 'rabbit' , port=5672, credentials=credentials))
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
-
         user_data=json.dumps(request.args.get('search'))
-        #user_data = json.dumps("Bloomington Indiana USA KIND")
-
+        
         def callback(ch, method, properties, body):
             #sending(body)
             global temp
@@ -115,10 +108,8 @@ def data():
             r = requests.post(url,json=dict)
             print("post request",r.content)
             #r = json.loads(r.content.decode('utf-8'))
-
-        # put request to update user searches
-
         return str(temp[ "Forecast" ][ 0 ])
+        
 
 @app.route('/history',methods=['POST','GET','PUT'])
 def gethistory():
@@ -132,4 +123,5 @@ def gethistory():
         return str(res_dict)
 
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0' , debug= True )
+    app.run(debug= True,host='0.0.0.0')
+
