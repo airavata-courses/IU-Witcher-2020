@@ -78,7 +78,7 @@ def hosting( ) :
 def hosting2( ) :
     uploaded_image = image_link.upload_image('Reflectivity_Correlation.png', title="Image Hosted")
     print( uploaded_image.link )
-    return uploaded_image.link
+    return str( uploaded_image.link )
 
 # plotting Reflectivity range
 def plotting( plot_data ) :
