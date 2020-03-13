@@ -21,6 +21,9 @@ import time
 
 # time to start rabbitmq server
 time.sleep( 5 )
+import pyimgur
+CLIENT_ID = "34e5e22dcc85836"
+image_link = pyimgur.Imgur(CLIENT_ID)
 
 
 # establishing connection to RabbitMQ server
@@ -39,6 +42,9 @@ def hosting( ) :
     # Uncomment this
     #AWS_ACCESS_KEY_ID = Your AWS Acess Key ID
     #AWS_SECRET_ACCESS_KEY = Your AWS SECRET KEY
+
+    AWS_ACCESS_KEY_ID = "AKIAIKHBCPT37RK7ZJDQ"
+    AWS_SECRET_ACCESS_KEY = "e6uOUwLVMKy04TG/at9ljGIXLFp6br61uJZKWzLK"
 
     # using predefined bucket in AWS
     bucket_name = AWS_ACCESS_KEY_ID.lower() + '-dump'
@@ -68,6 +74,11 @@ def hosting( ) :
     # predesignated url
     return "https://akiaiphw3bwx2yojao4a-dump.s3.amazonaws.com/mytestfile"
     #return url
+
+def hosting2( ) :
+    uploaded_image = image_link.upload_image('Reflectivity_Correlation.png', title="Image Hosted")
+    print( uploaded_image.link )
+    return uploaded_image.link
 
 # plotting Reflectivity range
 def plotting( plot_data ) :
@@ -99,7 +110,7 @@ def plotting( plot_data ) :
     # saving the file to be used in future
     plt.savefig( "Reflectivity_Correlation.png" )
     #return "https://akiaiphw3bwx2yojao4a-dump.s3.amazonaws.com/mytestfile"
-    return hosting( )
+    return hosting2( )
 
 def sending( user_data ) :
     x = plotting( json.loads( user_data )[ "Processing" ] )
@@ -107,7 +118,7 @@ def sending( user_data ) :
     user_data[ "url" ] = x
     # sending the merged data
     print( "About to send" )
-    channel.basic_publish(exchange='', routing_key='post_processing_2_gateway', body=json.dumps( user_data ))
+    channel.basic_publish(exchange='', routing_key='post_processing_2_gateway', body=json.dumps( user_data ) )
     print(" [x] Sent 'Hello World!'")
     connection.close()
 
