@@ -126,9 +126,9 @@ class Login extends Component {
                 Welcome {this.state.uname}
                 <br/>
                 <br/>
+                Search:
                 <form onSubmit={this.search}>
-                    Search:
-                    <button onclick="window.open('http://index.html')"> Predict Weather </button>
+    
                     <select name='search' onChange={this.setSearch} required="required">
                         <option value='Bloomington Indiana USA KIND'>
                             Bloomington Indiana USA KIND</option>
@@ -143,7 +143,7 @@ class Login extends Component {
                 <div className={'prediction'}>
                     <br/>
                     <br/> {this.state.prediction}
-                    <img src='https://akiailzke76qae2cesgq-dump.s3.amazonaws.com/mytestfile'/>
+                    <img src='https://akiailzke76qae2cesgq-dump.s3.amazonaws.com/mytestfile' alt='Enter Your Amazon S3 Bucket Address'/>
                 </div>
                 <br/>
 
