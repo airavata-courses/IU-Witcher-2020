@@ -1,7 +1,9 @@
-FROM debian:latest
+#FROM debian:latest
 
-RUN apt-get update && apt-get install -y \
-    python3-pip
+#RUN apt-get update && apt-get install -y \
+#    python3-pip
+
+FROM python:3.7
 
 WORKDIR /app/model-execution
 
