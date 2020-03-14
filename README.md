@@ -2,8 +2,8 @@
 
 ## Build image
 
-`docker build -t srajpal/ads-post-processing:1.0 .`
+`docker build -t iuwitcher2020/dockerized_post_processing .`
 
 ## Run container
 
-`docker run -it -d -p 5001:5001 srajpal/ads-post-processing:1.0 /bin/sh`
+`docker run-p 5003:5003 iuwitcher2020/dockerized_post_processing`
