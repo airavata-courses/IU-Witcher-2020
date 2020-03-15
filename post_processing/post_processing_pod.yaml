@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: data-retrieval
+  name: post-processing
   labels:
-    name: data-retrieval
+    name: post-processing
     app: todoapp
 
 spec:
       containers:
-      - image: iuwitcher2020/dockerized_data_retrieval
-        name: data-retrieval
+      - image: iuwitcher2020/dockerized_post_processing
+        name: post-processing
         ports:
-        - name: data-retrieval
-          containerPort: 5001
+        - name: post-processing
+          containerPort: 5003
 
       #   volumeMounts:
       #     - name: data-retrieva

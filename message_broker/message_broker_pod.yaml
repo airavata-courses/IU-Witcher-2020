@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: data-retrieval
+  name: message_broker
   labels:
-    name: data-retrieval
+    name: message_broker
     app: todoapp
 
 spec:
       containers:
-      - image: iuwitcher2020/dockerized_data_retrieval
-        name: data-retrieval
+      - image: rabbitmq
+        name: message_broker
         ports:
-        - name: data-retrieval
-          containerPort: 5001
+        - name: message_broker
+          containerPort: 5000
 
       #   volumeMounts:
       #     - name: data-retrieva

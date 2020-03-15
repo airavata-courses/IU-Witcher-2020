@@ -1,0 +1,21 @@
+#apiVersion: extensions/v1beta1
+apiVersion: v1
+kind: ReplicaSet
+metadata:
+  name: data-retrieval
+  labels:
+    name: data-retrieval
+    app: todoapp
+
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: data-retrieval
+    spec:
+      containers:
+      - name: data-retrieval
+        image: iuwitcher2020/dockerized_data_retrieval
+        ports:
+        - containerPort: 3001

@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: data-retrieval
+  name: model-execution
   labels:
-    name: data-retrieval
+    name: model-execution
     app: todoapp
 
 spec:
       containers:
-      - image: iuwitcher2020/dockerized_data_retrieval
-        name: data-retrieval
+      - image: iuwitcher2020/dockerized_model_execution
+        name: model-execution
         ports:
-        - name: data-retrieval
-          containerPort: 5001
+        - name: model-execution
+          containerPort: 5002
 
       #   volumeMounts:
       #     - name: data-retrieva
