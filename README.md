@@ -1,9 +1,5 @@
-# API Gateway
+# Post Processing
 
-## Build image
+# Bash File
 
-`docker build -t iuwitcher2020/dockerized_model_execution .`
-
-## Run container
-
-`docker run -p 5002:5002 iuwitcher2020/dockerized_model_execution`
+sudo bash build_run.sh
