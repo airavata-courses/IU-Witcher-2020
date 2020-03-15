@@ -1,9 +1,5 @@
 # Post Processing
 
-## Build image
+# Bash File
 
-`docker build -t iuwitcher2020/dockerized_post_processing .`
-
-## Run container
-
-`docker run-p 5003:5003 iuwitcher2020/dockerized_post_processing`
+sudo bash build_run.sh
