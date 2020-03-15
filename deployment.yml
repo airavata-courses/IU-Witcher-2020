@@ -1,0 +1,87 @@
+version: '3'
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rss-site
+  labels:
+    app: web
+
+spec:
+  containers :
+    - name = rabbit:
+      hostname: rabbit
+      image: rabbitmq
+      ports:
+        - "5674:5672"
+        - "15674:15672"
+
+    - name = post_proc :
+      build : "./post-processing"
+      hostname : post_proc
+      image : post-proc-image
+      ports :
+        - "5004:5004"
+      depends_on :
+        - rabbit
+
+    - name = model_exec :
+      build : "./model-execution"
+      hostname : model_exec
+      image : model-exec-image
+      ports :
+        - "5003:5003"
+      depends_on :
+        - rabbit
+
+    - name = data_retrv :
+      build : "./data-retrieval"
+      hostname : data_retrv
+      image : data-retrv-image
+      ports :
+        - "5002:5002"
+      depends_on :
+        - rabbit
+
+    - name = api_gate :
+      build : "./api-gateway"
+      hostname : api_gate
+      image : api-gate-way
+      ports :
+        - "5000:5000"
+      depends_on :
+        - rabbit
+      links :
+        - "php_web:phpserver"
+
+    - name = react_ui :
+      build : "./ui"
+      hostname : react_ui
+      image : react-ui
+      ports :
+        - "3000:3000"
+      links :
+        - "api_gate:apigateway"
+
+    - name = php_web:
+      image: php:7.2.2-apache
+      container_name: php_web
+      hostname : php_web
+      depends_on:
+        - db
+      volumes:
+        - ./lamp-stack/php/:/var/www/html/
+      ports:
+        - "8100:80"
+      stdin_open: true
+      tty: true
+
+    - name = db:
+      image: mysql:5.7
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: test_db
+        MYSQL_USER: devuser
+        MYSQL_PASSWORD: devpass
+      ports:
+        - "9906:3306"
