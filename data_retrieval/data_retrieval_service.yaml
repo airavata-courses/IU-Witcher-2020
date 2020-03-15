@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-retrieval-microservice
+  labels:
+    name: mongo
+    app: todoapp
+
+spec:
+  selector:
+    name: data-retrieval-microservice
+
+  type: ClusterIP
+  ports:
+    - name: db
+      port: 5001
+      targetPort: 5001

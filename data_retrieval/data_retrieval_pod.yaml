@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: data-retrieval-microservice
+  labels:
+    name: data-retrieval-microservice
+    app: todoapp
+
+spec:
+      containers:
+      - image: iuwitcher2020/dockerized_data_retrieval
+        name: data-retrieval-microservice
+        ports:
+        - name: data-retrieval-microservice
+          containerPort: 5001
+
+        volumeMounts:
+          - name: data-retrieval-microservice
+            # mountPath: /data/db
+
+      volumes:
+          - name: data-retrieval-microservice
+            # hostPath:
+            #   path: /data/db
