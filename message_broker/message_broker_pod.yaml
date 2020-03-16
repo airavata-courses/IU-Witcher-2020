@@ -11,8 +11,7 @@ spec:
       - image: rabbitmq
         name: message_broker
         ports:
-        - name: message_broker
-          containerPort: 5000
+        - containerPort: 5000
 
       #   volumeMounts:
       #     - name: data-retrieva
