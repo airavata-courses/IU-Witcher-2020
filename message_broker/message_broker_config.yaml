@@ -7,7 +7,7 @@ spec:
  ports:
   - targetPort: 5672
     port: 5672
-    nodePort: 35672
+    nodePort: 32672
  selector:
   app: message_broker
 ---
@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        app: message-broker
+        app: message_broker
     spec:
       containers:
       - name: message-broker
