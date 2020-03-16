@@ -9,7 +9,7 @@ spec:
     port: 5002
     nodePort: 30002
  selector:
-  app: python
+  app: model_execution
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -18,12 +18,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: python
+      app: model_execution
   replicas: 3
   template:
     metadata:
       labels:
-        app: python
+        app: model_execution
     spec:
       containers:
       - name: model-execution-microservice
