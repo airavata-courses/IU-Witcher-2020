@@ -14,7 +14,7 @@ time.sleep( 10 )
 # establishing connection to RabbitMQ server
 credentials = pika.PlainCredentials(username='guest', password='guest')
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host = 'rabbit' , port=5672, credentials=credentials))
+            host = 'message-broker' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue
@@ -90,7 +90,7 @@ while True :
     channel.start_consuming()
     print( "Model Executed" )
     connection = pika.BlockingConnection(pika.ConnectionParameters(
-                host = 'rabbit' , port=5672, credentials=credentials))
+                host = 'message-broker' , port=5672, credentials=credentials))
     channel = connection.channel()
 #
 #     # declaring receiving queue
