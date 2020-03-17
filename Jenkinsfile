@@ -5,7 +5,7 @@ node{
     }
 
     stage( "Building of Docker Image" ){
-         sh "docker build -t iuwitcher2020/dockerized_data_retrieval ."
+         sh "docker build -t iuwitcher2020/dockerized_data_retrieval:latest ."
     }
 
     stage('Pushing Built Docker Image to DockerHub'){
@@ -13,6 +13,6 @@ node{
      sh "docker login -u iu_witcher_2020 -p Password@123"
         }
 
-  sh "docker push iuwitcher2020/dockerized_data_retrieval"
+  sh "docker push iuwitcher2020/dockerized_data_retrieval:latest"
     }
 }
