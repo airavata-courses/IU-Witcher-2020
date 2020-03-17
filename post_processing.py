@@ -29,7 +29,7 @@ image_link = pyimgur.Imgur(CLIENT_ID)
 # establishing connection to RabbitMQ server
 credentials = pika.PlainCredentials(username='guest', password='guest')
 connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host = 'rabbit' , port=5672, credentials=credentials))
+            host = 'message-broker' , port=5672, credentials=credentials))
 channel = connection.channel()
 
 # declaring receiving queue
@@ -141,7 +141,7 @@ while True :
     print( "Post processed" )
     #time.sleep( 5 )
     connection = pika.BlockingConnection(pika.ConnectionParameters(
-                host = 'rabbit' , port=5672, credentials=credentials))
+                host = 'message-broker' , port=5672, credentials=credentials))
     channel = connection.channel()
 #
 #     # declaring receiving queue
