@@ -13,5 +13,5 @@ spec:
   type: NodePort
   ports:
     - name: user-management
-      port: 5004
-      targetPort: 5004
+      port: 80
+      targetPort: 80
