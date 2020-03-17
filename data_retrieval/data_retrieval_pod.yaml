@@ -8,10 +8,9 @@ metadata:
 
 spec:
       containers:
-      - image: iuwitcher2020/dockerized_data_retrieval
+      - image: iuwitcher2020/dockerized_data_retrieval:latest
         name: data-retrieval
         ports:
-        - name: data-retrieval
           containerPort: 5001
 
       #   volumeMounts:

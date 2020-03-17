@@ -8,7 +8,7 @@ metadata:
 
 spec:
       containers:
-      - image: rabbitmq
+      - image: iuwitcher2020/dockerized_message_broker:latest
         name: message_broker
         ports:
         - containerPort: 5000

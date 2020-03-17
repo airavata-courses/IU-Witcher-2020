@@ -8,10 +8,9 @@ metadata:
 
 spec:
       containers:
-      - image: iuwitcher2020/dockerized_post_processing
+      - image: iuwitcher2020/dockerized_post_processing:latest
         name: post-processing
         ports:
-        - name: post-processing
           containerPort: 5003
 
       #   volumeMounts:

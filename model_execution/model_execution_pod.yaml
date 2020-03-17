@@ -8,10 +8,9 @@ metadata:
 
 spec:
       containers:
-      - image: iuwitcher2020/dockerized_model_execution
+      - image: iuwitcher2020/dockerized_model_execution:latest
         name: model-execution
         ports:
-        - name: model-execution
           containerPort: 5002
 
       #   volumeMounts:
