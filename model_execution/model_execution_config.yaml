@@ -28,6 +28,6 @@ spec:
       containers:
       - name: model-execution-microservice
         imagePullPolicy: Always
-        image: iuwitcher2020/dockerized_model_execution
+        image: iuwitcher2020/dockerized_model_execution:latest
         ports:
         - containerPort: 5002

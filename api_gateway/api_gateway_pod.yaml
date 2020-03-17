@@ -8,7 +8,7 @@ metadata:
 
 spec:
       containers:
-      - image: vishalp04/user_management:latest
+      - image: vishalp04/apigateway:latest
         name: api-gateway
         ports:
           containerPort: 5000
