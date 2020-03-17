@@ -19,9 +19,10 @@ userID=''
 def indexPage():
     uname=request.args.get('uname')
     password=request.args.get('password')
+    print("got user credentials")
     params = urllib.parse.urlencode({'uname': uname, 'password': password})
     content = urllib.request.urlopen(
-        'http://phpserver?%s' % params).read().decode('utf-8')
+        'http://user-management?%s' % params).read().decode('utf-8')
     print('response from php: ',content)
     if "True" in content:
         global userID
@@ -37,9 +38,10 @@ def signupPage():
     password=request.args.get('password')
     #return "logged in"
     #return "get method %S "% user
+    print("signing up user")
     params = urllib.parse.urlencode({'uname': uname, 'password': password}).encode("utf-8")
     content = urllib.request.urlopen(
-        'http://phpserver/',params).read().decode('utf-8')
+        'http://user-management/',params).read().decode('utf-8')
     print('response from php: ', content)
     if "Successfully" in content:
         return "Successfully Created User"
