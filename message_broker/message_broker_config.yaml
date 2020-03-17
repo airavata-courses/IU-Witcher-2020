@@ -28,6 +28,6 @@ spec:
       containers:
       - name: message-broker
         imagePullPolicy: Always
-        image: iuwitcher2020/dockerized_message_broker
+        image: iuwitcher2020/dockerized_message_broker:latest
         ports:
         - containerPort: 5672
