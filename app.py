@@ -62,11 +62,11 @@ def data():
         print( "Search " , request.args.get('search'))
         credentials = pika.PlainCredentials(username='guest', password='guest')
         connection = pika.BlockingConnection(pika.ConnectionParameters(
-                    host = 'rabbit' , port=5672, credentials=credentials))
+                    host = 'message-broker' , port=5672, credentials=credentials))
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
         user_data=json.dumps(request.args.get('search'))
-        
+
         def callback(ch, method, properties, body):
             #sending(body)
             global temp
@@ -109,7 +109,7 @@ def data():
             print("post request",r.content)
             #r = json.loads(r.content.decode('utf-8'))
         return str(temp[ "Forecast" ][ 0 ])
-        
+
 
 @app.route('/history',methods=['POST','GET','PUT'])
 def gethistory():
@@ -124,4 +124,3 @@ def gethistory():
 
 if __name__ == '__main__':
     app.run(debug= True,host='0.0.0.0')
-
