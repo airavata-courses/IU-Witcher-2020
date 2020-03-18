@@ -63,13 +63,18 @@ def data():
         #search=request.args.get('search')
         #print( "Search " , request.args.get('search'))
         credentials = pika.PlainCredentials(username='guest', password='guest')
-        connection = pika.BlockingConnection(pika.ConnectionParameters(
-                    host = 'message-broker' , port=5672, credentials=credentials))
+        try:
+        	connection = pika.BlockingConnection(pika.ConnectionParameters(
+                    host = 'http://149.165.171.22' , port=32672, credentials=credentials))
+        except:
+        	print("Error occured while making connection")
+        	return "Error occured while making connection to rabbitMQ"
+        	
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
         #user_data=json.dumps(request.args.get('search'))
         user_data = json.dumps("Bloomington Indiana USA KIND")
-        
+
         def callback(ch, method, properties, body):
             #sending(body)
             global temp
