@@ -9,21 +9,21 @@ spec:
     port: 80
     nodePort: 30080
  selector:
-  app: user_management
+  app: usermanagement
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user_management
+  name: usermanagement
 spec:
   selector:
     matchLabels:
-      app: user_management
+      app: usermanagement
   replicas: 3
   template:
     metadata:
       labels:
-        app: user_management
+        app: usermanagement
     spec:
       containers:
       - name: user-management
