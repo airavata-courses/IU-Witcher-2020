@@ -17,10 +17,10 @@ userID=''
 
 @app.route('/',methods=['GET'])
 def indexPage():
-    uname=request.args.get('uname')
+    uname=request.args.get('username')
     password=request.args.get('password')
     print("got user credentials")
-    params = urllib.parse.urlencode({'uname': uname, 'password': password})
+    params = urllib.parse.urlencode({'username': uname, 'password': password})
     content = urllib.request.urlopen(
         'http://user-management?%s' % params).read().decode('utf-8')
     print('response from php: ',content)
@@ -34,12 +34,12 @@ def indexPage():
 
 @app.route('/signup',methods=['POST','GET'])
 def signupPage():
-    uname=request.args.get('uname')
+    uname=request.args.get('username')
     password=request.args.get('password')
     #return "logged in"
     #return "get method %S "% user
     print("signing up user")
-    params = urllib.parse.urlencode({'uname': uname, 'password': password}).encode("utf-8")
+    params = urllib.parse.urlencode({'username': uname, 'password': password}).encode("utf-8")
     content = urllib.request.urlopen(
         'http://user-management/',params).read().decode('utf-8')
     print('response from php: ', content)
@@ -60,15 +60,16 @@ def data():
         return "weather put"
 
     else:
-        search=request.args.get('search')
-        print( "Search " , request.args.get('search'))
+        #search=request.args.get('search')
+        #print( "Search " , request.args.get('search'))
         credentials = pika.PlainCredentials(username='guest', password='guest')
         connection = pika.BlockingConnection(pika.ConnectionParameters(
                     host = 'message-broker' , port=5672, credentials=credentials))
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
-        user_data=json.dumps(request.args.get('search'))
-
+        #user_data=json.dumps(request.args.get('search'))
+        user_data = json.dumps("Bloomington Indiana USA KIND")
+        
         def callback(ch, method, properties, body):
             #sending(body)
             global temp
