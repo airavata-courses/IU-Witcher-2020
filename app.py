@@ -65,7 +65,7 @@ def data():
         credentials = pika.PlainCredentials(username='guest', password='guest')
         try:
         	connection = pika.BlockingConnection(pika.ConnectionParameters(
-                    host = 'http://149.165.171.22' , port=32672, credentials=credentials))
+                    host = 'rabbitmq-service' , port=5672, credentials=credentials))
         except:
         	print("Error occured while making connection")
         	return "Error occured while making connection to rabbitMQ"
