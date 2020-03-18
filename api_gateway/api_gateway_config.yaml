@@ -28,6 +28,6 @@ spec:
       containers:
       - name: api-gateway
         imagePullPolicy: Always
-        image: vishalp04/apigateway:latest
+        image: iuwitcher2020/dockerized_api_gateway:latest
         ports:
         - containerPort: 5000
