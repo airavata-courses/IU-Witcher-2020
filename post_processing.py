@@ -20,7 +20,7 @@ from botocore.client import Config
 import time
 
 # time to start rabbitmq server
-time.sleep( 10 )
+time.sleep( 20 )
 import pyimgur
 CLIENT_ID = "34e5e22dcc85836"
 image_link = pyimgur.Imgur(CLIENT_ID)
