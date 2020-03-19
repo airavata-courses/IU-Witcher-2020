@@ -9,7 +9,7 @@ class Login extends Component {
         this.state = {
             login: true,
             features: false,
-            uname: "",
+            username: "",
             password: "",
             search: "Bloomington Indiana USA KIND",
             prediction: "",
@@ -24,7 +24,7 @@ class Login extends Component {
     }
 
     setUsername = (event) => {
-        this.setState({uname: event.target.value})
+        this.setState({username: event.target.value})
     }
 
     setPassword = (event) => {
@@ -37,7 +37,7 @@ class Login extends Component {
 
     search = (event) => {
         event.preventDefault();
-        axios.get('http://127.0.0.1:5000/data?search=' + this.state.search)
+        axios.get('http://api-gateway/data?search=' + this.state.search)
 
             .then((response) => {
             // handle success
@@ -55,7 +55,7 @@ class Login extends Component {
         event.preventDefault();
 
         // axios.post('http://127.0.0.1:5000/', {
-        //     uname: this.state.uname,
+        //     username: this.state.username,
         //     password: this.state.password
         // })
         //     .then((response) => {
@@ -64,7 +64,7 @@ class Login extends Component {
         //         console.log(error);
         //     });
 
-        axios.get('http://localhost:5000?uname=' + this.state.uname + '&password=' + this.state.password).then((response) => {
+        axios.get('http://api-gateway?username=' + this.state.username + '&password=' + this.state.password).then((response) => {
             console.log(response);
             if (response.data === 'Successfully logged in') {
                 this.setState({features: true, login: false})
@@ -109,7 +109,7 @@ class Login extends Component {
                     Login
                     <br/>
                     UserName:
-                    <input type='text' name='uname' onChange={this.setUsername} required="required"/>
+                    <input type='text' name='username' onChange={this.setUsername} required="required"/>
                     <br/>
                     PassWord:
                     <input type='text' name='password' onChange={this.setPassword} required="required"/>
@@ -122,7 +122,7 @@ class Login extends Component {
         let features = null;
         if (this.state.features) {
             features = (<center>
-                Welcome {this.state.uname}
+                Welcome {this.state.username}
                 <br/>
                 <br/>
                 <form onSubmit={this.search}>

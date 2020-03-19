@@ -5,7 +5,7 @@ class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            uname: "",
+            username: "",
             password:""
         }
         this.setUsername = this.setUsername.bind(this);
@@ -14,7 +14,7 @@ class Signup extends Component {
     }
 
     setUsername = (event) => {
-        this.setState({uname: event.target.value})
+        this.setState({username: event.target.value})
     }
 
     setPassword = (event) => {
@@ -35,7 +35,7 @@ class Signup extends Component {
         //     });
 
 
-        axios.get('http://localhost:5000/signup?uname='+this.state.uname+'&password='+this.state.password)
+        axios.get('http://api-gateway/signup?username='+this.state.username+'&password='+this.state.password)
             .then( (response)=> {
                 // handle success
                 console.log(response);
@@ -71,7 +71,7 @@ class Signup extends Component {
                 <form onSubmit={this.signup}>
                     Signup
                     <br/>
-                    UserName: <input type='text' name='uname' onChange={this.setUsername} required/>
+                    UserName: <input type='text' name='username' onChange={this.setUsername} required/>
                     <br/>
                     PassWord: <input type='text' name='password' onChange={this.setPassword} required/>
                     <br/>
