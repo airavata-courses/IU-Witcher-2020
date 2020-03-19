@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: ReplicaSet
 metadata:
     name: server
@@ -7,9 +7,6 @@ metadata:
         app: witcherapp
 spec:
     replicas: 3
-    selector:
-        matchLabels:
-            tier: server
     template:
         metadata:
             labels:
