@@ -12,13 +12,17 @@ import pika
 import requests
 
 
-userID=''
+userID='' 
 
 
 @app.route('/',methods=['GET'])
 def indexPage():
     uname=request.args.get('username')
     password=request.args.get('password')
+    
+    if uname=='guest':
+        return "Successfully logged in"
+
     print("got user credentials")
     params = urllib.parse.urlencode({'username': uname, 'password': password})
     content = urllib.request.urlopen(
@@ -72,8 +76,8 @@ def data():
         	
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
-        #user_data=json.dumps(request.args.get('search'))
-        user_data = json.dumps("Bloomington Indiana USA KIND")
+        user_data=json.dumps(request.args.get('search'))
+        #user_data = json.dumps("Bloomington Indiana USA KIND")
 
         def callback(ch, method, properties, body):
             #sending(body)
@@ -104,18 +108,22 @@ def data():
 
         global userID
         dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
-        response = requests.get('http://server:4321/users/'+userID)
-        print( "Content" , response.content)
-        res_dict = json.loads(response.content.decode('utf-8'))
+        try:
+            response = requests.get('http://server:4321/users/'+userID)
+            print( "Content" , response.content)
+            res_dict = json.loads(response.content.decode('utf-8'))
 
-        if 'userName' in res_dict:
-            r=requests.put(url,json=dict)
-            print("put request",r.content)
-            #r = json.loads(r.content.decode('utf-8'))
-        else:
-            r = requests.post(url,json=dict)
-            print("post request",r.content)
-            #r = json.loads(r.content.decode('utf-8'))
+            if 'userName' in res_dict:
+                r=requests.put(url,json=dict)
+                print("put request",r.content)
+                #r = json.loads(r.content.decode('utf-8'))
+            else:
+                r = requests.post(url,json=dict)
+                print("post request",r.content)
+                #r = json.loads(r.content.decode('utf-8'))
+        except:
+            return  str(temp[ "Forecast" ][ 0 ])
+
         return str(temp[ "Forecast" ][ 0 ])
 
 
@@ -124,10 +132,13 @@ def gethistory():
     if request.method == 'GET':
         url = "http://server:4321/users"
         global userID
-        response = requests.get('http://server:4321/users/'+userID)
-        print("Get response" ,response.content)
-        res_dict = json.loads(response.content.decode('utf-8'))
-
+        try:
+            response = requests.get('http://server:4321/users/'+userID)
+            print("Get response" ,response.content)
+            res_dict = json.loads(response.content.decode('utf-8'))
+        except:
+            return "Error while getting session information"
+            
         return str(res_dict)
 
 if __name__ == '__main__':
