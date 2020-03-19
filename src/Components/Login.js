@@ -142,7 +142,7 @@ class Login extends Component {
                 <div className={'prediction'}>
                     <br/>
                     <br/> {this.state.prediction}
-                    <img src='https://akiailzke76qae2cesgq-dump.s3.amazonaws.com/mytestfile'/>
+                    <img src='https://i.imgur.com/vnC9QN1.png' alt='error in loading image'/>
                 </div>
                 <br/>
 
