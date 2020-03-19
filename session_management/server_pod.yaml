@@ -7,7 +7,7 @@ metadata:
         app: witcherapp
 spec:
     containers:
-        - image: akshaygpt/witcher-session-management
+        - image: akshaygpt/witcher-session-management:latest
           name: witcher-session-management
           ports:
               - containerPort: 4321
