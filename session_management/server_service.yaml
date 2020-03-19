@@ -8,9 +8,9 @@ metadata:
 spec:
     selector:
         name: server
-        type: NodePort
-        ports:
-            - name: http
-              port: 4321
-              targetPort: 4321
-              protocol: TCP
+    type: NodePort
+    ports:
+        - name: http
+          port: 4321
+          targetPort: 4321
+          protocol: TCP
