@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+    name: server
+    labels:
+        name: server
+        app: witcherapp
+spec:
+    replicas: 3
+    template:
+        metadata:
+            labels:
+                name: server
+        spec:
+            containers:
+                - image: akshaygpt/witcher-session-management:1.0
+                  name: server
+                  ports:
+                      - containerPort: 4321
