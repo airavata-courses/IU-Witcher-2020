@@ -1,33 +1,51 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/1/./kompose-linux-amd64 convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: message-broker
   name: message-broker
 spec:
- type: LoadBalancer
- ports:
-  - targetPort: 5672
+  ports:
+  - name: "15672"
+    port: 15672
+    targetPort: 15672
+  - name: "5672"
     port: 5672
-    nodePort: 32672
- selector:
-  app: message_broker
+    targetPort: 5672
+  selector:
+    io.kompose.service: message-broker
+status:
+  loadBalancer: {}
 ---
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/1/./kompose-linux-amd64 convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: message-broker
   name: message-broker
 spec:
-  selector:
-    matchLabels:
-      app: message_broker
-  replicas: 3
+  replicas: 1
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: message_broker
+        io.kompose.service: message-broker
     spec:
       containers:
-      - name: message-broker
-        imagePullPolicy: Always
-        image: iuwitcher2020/dockerized_message_broker:latest
+      - image: iuwitcher2020/dockerized_message_broker:latest
+        name: message-broker
         ports:
+        - containerPort: 15672
         - containerPort: 5672
+        resources: {}
+      restartPolicy: Always
+status: {}

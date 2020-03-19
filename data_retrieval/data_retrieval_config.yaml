@@ -1,33 +1,25 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: data-retrieval
-spec:
- type: LoadBalancer
- ports:
-  - targetPort: 5001
-    port: 5001
-    nodePort: 30001
- selector:
-  app: data_retrieval
----
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/1/./kompose-linux-amd64 convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: data-retrieval
   name: data-retrieval
 spec:
-  selector:
-    matchLabels:
-      app: data_retrieval
-  replicas: 3
+  replicas: 1
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: data_retrieval
+        io.kompose.service: data-retrieval
     spec:
       containers:
-      - name: data-retrieval
-        imagePullPolicy: Always
-        image: iuwitcher2020/dockerized_data_retrieval:latest
-        ports:
-        - containerPort: 5001
+      - image: iuwitcher2020/dockerized_data_retrieval:latest
+        name: data-retrieval
+        resources: {}
+      restartPolicy: Always
+status: {}

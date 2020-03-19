@@ -1,33 +1,25 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: post-processing
-spec:
- type: LoadBalancer
- ports:
-  - targetPort: 5003
-    port: 5003
-    nodePort: 30003
- selector:
-  app: post_processing
----
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/1/./kompose-linux-amd64 convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: post-processing
   name: post-processing
 spec:
-  selector:
-    matchLabels:
-      app: post_processing
-  replicas: 3
+  replicas: 1
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: post_processing
+        io.kompose.service: post-processing
     spec:
       containers:
-      - name: post-processing
-        imagePullPolicy: Always
-        image: iuwitcher2020/dockerized_model_execution
-        ports:
-        - containerPort: 5003
+      - image: iuwitcher2020/dockerized_post_processing:latest
+        name: post-processing
+        resources: {}
+      restartPolicy: Always
+status: {}
