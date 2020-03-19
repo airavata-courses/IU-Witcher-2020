@@ -95,16 +95,16 @@ def data():
 
         print(' [*] Waiting for messages. To exit press CTRL+C')
         channel.start_consuming()
-        return str(temp[ "Forecast" ][ 0 ])
+        #return str(temp[ "Forecast" ][ 0 ])
 
         # check if user entry exists in mongodb
 
-        url = "http://localhost:4321/users"
+        url = "http://server:4321/"
 
 
         global userID
         dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
-        response = requests.get('http://localhost:4321/users/'+userID)
+        response = requests.get('http://server:4321/users/'+userID)
         print( "Content" , response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
 
@@ -122,9 +122,9 @@ def data():
 @app.route('/history',methods=['POST','GET','PUT'])
 def gethistory():
     if request.method == 'GET':
-        url = "http://localhost:4321/users"
+        url = "http://server:4321/users"
         global userID
-        response = requests.get('http://localhost:4321/users/'+userID)
+        response = requests.get('http://server:4321/users/'+userID)
         print("Get response" ,response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
 
