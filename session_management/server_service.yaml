@@ -8,9 +8,9 @@ metadata:
 spec:
     selector:
         name: server
-    type: NodePort
+    type: LoadBalancer
     ports:
         - name: http
           port: 4321
-          targetPort: 4321
+          targetPort: 30030
           protocol: TCP
