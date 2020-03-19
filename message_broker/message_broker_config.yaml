@@ -32,7 +32,7 @@ metadata:
     io.kompose.service: message-broker
   name: message-broker
 spec:
-  replicas: 3
+  replicas: 1
   strategy: {}
   template:
     metadata:
