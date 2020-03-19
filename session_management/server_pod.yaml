@@ -6,8 +6,14 @@ metadata:
         name: server
         app: witcherapp
 spec:
-    containers:
-        - image: akshaygpt/witcher-session-management:1.0
-          name: witcher-session-management
-          ports:
-              - containerPort: 4321
+    replicas: 3
+    template:
+        metadata:
+            labels:
+                name: server
+        spec:
+            containers:
+                - image: akshaygpt/witcher-session-management:1.0
+                  name: server
+                  ports:
+                      - containerPort: 4321
