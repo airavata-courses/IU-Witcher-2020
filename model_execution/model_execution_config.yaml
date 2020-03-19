@@ -15,7 +15,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: model-exec
+        io.kompose.service: model-execution
     spec:
       containers:
       - image: iuwitcher2020/dockerized_model_execution:latest
