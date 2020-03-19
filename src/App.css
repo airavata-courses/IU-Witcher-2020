@@ -16,3 +16,8 @@
 table{
   cellspacing: 50px;
 }
+
+
+body{
+   background-image: url("/background.jpeg");
+}

@@ -126,8 +126,6 @@ class Login extends Component {
                 <br/>
                 <br/>
                 <form onSubmit={this.search}>
-                    Search:
-                    <button onclick="window.open('http://index.html')"> Predict Weather </button>
                     <select name='search' onChange={this.setSearch} required="required">
                         <option value='Bloomington Indiana USA KIND'>
                             Bloomington Indiana USA KIND</option>
