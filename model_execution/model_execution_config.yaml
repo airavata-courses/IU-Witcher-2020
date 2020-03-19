@@ -9,7 +9,7 @@ spec:
     port: 5002
     nodePort: 30002
  selector:
-  app: model_execution
+  app: model-execution
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -18,15 +18,15 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: model_execution
+      app: model-execution
   replicas: 3
   template:
     metadata:
       labels:
-        app: model_execution
+        app: model-execution
     spec:
       containers:
-      - name: model-execution-microservice
+      - name: model-execution
         imagePullPolicy: Always
         image: iuwitcher2020/dockerized_model_execution:latest
         ports:
