@@ -37,7 +37,7 @@ class Login extends Component {
 
     search = (event) => {
         event.preventDefault();
-        axios.get('http://api-gateway:3000/data?search=' + this.state.search)
+        axios.get('http://api-gateway:5000/data?search=' + this.state.search)
 
             .then((response) => {
             // handle success
@@ -64,7 +64,7 @@ class Login extends Component {
         //         console.log(error);
         //     });
 
-        axios.get('http://api-gateway:3000?username=' + this.state.username + '&password=' + this.state.password).then((response) => {
+        axios.get('http://api-gateway:5000?username=' + this.state.username + '&password=' + this.state.password).then((response) => {
             console.log(response);
             if (response.data === 'Successfully logged in') {
                 this.setState({features: true, login: false})
@@ -86,7 +86,7 @@ class Login extends Component {
     history=(event)=>{
         event.preventDefault()
 
-        axios.get('http://apigateway:3000/history')
+        axios.get('http://apigateway:5000/history')
             .then((response) => {
             // handle success
             console.log(response);

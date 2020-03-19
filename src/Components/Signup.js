@@ -35,7 +35,7 @@ class Signup extends Component {
         //     });
 
 
-        axios.get('http://api-gateway:3000/signup?username='+this.state.username+'&password='+this.state.password)
+        axios.get('http://api-gateway:5000/signup?username='+this.state.username+'&password='+this.state.password)
             .then( (response)=> {
                 // handle success
                 console.log(response);
