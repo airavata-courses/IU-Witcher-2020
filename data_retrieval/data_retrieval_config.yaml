@@ -9,7 +9,7 @@ spec:
     port: 5001
     nodePort: 30001
  selector:
-  app: data_retrieval
+  app: data-retrieval
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -18,12 +18,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: data_retrieval
+      app: data-retrieval
   replicas: 3
   template:
     metadata:
       labels:
-        app: data_retrieval
+        app: data-retrieval
     spec:
       containers:
       - name: data-retrieval
