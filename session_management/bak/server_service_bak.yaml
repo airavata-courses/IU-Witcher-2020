@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: server
+    labels:
+        name: server
+        app: witcherapp
+spec:
+    selector:
+        name: server
+    type: LoadBalancer
+    ports:
+        - name: http
+          port: 4321
+          targetPort: 4321
+          protocol: TCP
