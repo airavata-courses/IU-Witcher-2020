@@ -11,6 +11,7 @@ import json
 import pika
 import requests
 
+temp=''
 
 @app.route('/',methods=['GET'])
 def indexPage():
@@ -75,11 +76,12 @@ def data():
         user_data=json.dumps(request.args.get('search'))
         #user_data = json.dumps("Bloomington Indiana USA KIND")
 
+        
+
         def callback(ch, method, properties, body):
-            #sending(body)
+            #sending(body)       
             global temp
-            temp = body
-            temp=json.loads(temp)
+            temp=json.loads(body)
             print( "Forecast" , temp[ "Forecast" ][ 0 ] )
             #return str(temp[ "Forecast" ][ 0 ])
             #return str(temp[ "Forecast" ][ 0 ])
