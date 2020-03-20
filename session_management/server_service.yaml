@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     name: server
-  type: NodePort
+  type: LoadBalancer
   ports:
    - name: http
      port: 4321
