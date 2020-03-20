@@ -13,7 +13,7 @@ spec:
                 name: server
         spec:
             containers:
-                - image: akshaygpt/witcher-session-management:1.0
+                - image: iuwitcher2020/dockerized_session_management:latest
                   name: server
                   ports:
                       - containerPort: 4321
