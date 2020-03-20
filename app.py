@@ -101,11 +101,11 @@ def data():
 
         # check if user entry exists in mongodb
 
-        url = "http://149.165.171.53:32171/"
+        url = "http://server:4321/users/"
 
         dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
         try:
-            response = requests.get('http://149.165.171.53:32171/'+userID)
+            response = requests.get('http://server:4321/users/'+userID)
             print( "Content" , response.content)
             res_dict = json.loads(response.content.decode('utf-8'))
 
@@ -127,9 +127,9 @@ def data():
 def gethistory():
     if request.method == 'GET':
         userID=request.args.get('username')
-        url = "http://149.165.171.53:32171/"
+        url = "http://server:4321/users/"
         try:
-            response = requests.get('http://149.165.171.53:32171/')
+            response = requests.get('http://server:4321/users/')
             print("Get response" ,response.content)
             res_dict = json.loads(response.content.decode('utf-8'))
         except:
