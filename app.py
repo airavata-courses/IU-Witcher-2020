@@ -60,7 +60,7 @@ def data():
         userID=request.args.get('username')
         search=request.args.get('search')
         temp=dict()
-        temp["Forecast"]=[['Temp: 25'],['Wind': 40]]
+        temp["Forecast"]=[['Temp: 25'],['Wind: 40']]
 
         print( "Search " , request.args.get('search'))
 
