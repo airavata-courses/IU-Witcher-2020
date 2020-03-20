@@ -14,7 +14,7 @@ spec:
         name: server
     spec:
       containers:
-      - name: server
+      - name: myserver
         image: iuwitcher2020/dockerized_session_management:latest
         ports:
         - containerPort: 4321
