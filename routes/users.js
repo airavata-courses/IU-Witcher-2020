@@ -4,11 +4,22 @@ const User = require('../models/user')
 
 // root_path/users api
 
+let statusers = {
+    guest: {
+        userName: 'guest',
+        search: [
+            'Bloomington Indiana USA KIND'
+        ]
+    }
+}
+
 //Getting all
 router.get('/', async (req, res) => {
+    // statusers['guest']['search'].append('')
     try {
-        const users = await User.find()
-        res.send(users)
+        res.send(statusers['guest'])
+        // const users = await User.find()
+        // res.send(users)
     } catch(err) {
         res.status(500).json({message: err.message}) // status 500 - server error
     }
@@ -16,7 +27,7 @@ router.get('/', async (req, res) => {
 
 //Getting one
 router.get('/:id', getUserFromQuery, (req, res) => {
-    res.json(res.user)
+    res.json(statusers['guest'])
 })
 
 //Creating one
@@ -87,20 +98,20 @@ async function getUser(req, res, next){
 
 //getUser middleware
 async function getUserFromQuery(req, res, next){
-    let user
-    // console.log('MIDDLEWARE REQ BODY', req.body)
-    try {
-        user = await User.findOne({userName: req.params.id})
-        if(user === null){
-            return res.status(404).json({
-                statusCode: 404,
-                message: 'Cannot find user'
-            })
-        }
-    } catch(err) {
-        return res.status(500).json(err)
-    }
-    res.user = user
+    // let user
+    // // console.log('MIDDLEWARE REQ BODY', req.body)
+    // try {
+    //     user = await User.findOne({userName: req.params.id})
+    //     if(user === null){
+    //         return res.status(404).json({
+    //             statusCode: 404,
+    //             message: 'Cannot find user'
+    //         })
+    //     }
+    // } catch(err) {
+    //     return res.status(500).json(err)
+    // }
+    // res.user = user
     next()
 }
 
@@ -111,5 +122,9 @@ async function getUserFromQuery(req, res, next){
 //     })
 //     await user1.save()
 // }
+
+// let chris = new User({
+//   userName: 'guest0'
+// });
 
 module.exports = router
