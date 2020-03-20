@@ -129,7 +129,7 @@ def gethistory():
         userID=request.args.get('username')
         url = "http://149.165.171.53:32171/"
         try:
-            response = requests.get('http://149.165.171.53:32171/'+userID)
+            response = requests.get('http://149.165.171.53:32171/')
             print("Get response" ,response.content)
             res_dict = json.loads(response.content.decode('utf-8'))
         except:
