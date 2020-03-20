@@ -12,5 +12,5 @@ spec:
     ports:
         - name: http
           port: 4321
-          targetPort: 30030
+          targetPort: 4321
           protocol: TCP
