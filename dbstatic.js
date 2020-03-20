@@ -21,7 +21,9 @@
 const express = require('express')
 const router = express.Router()
 
-let userHistory = []
+let userHistory = [
+    'Bloomington Indiana USA KIND'
+]
 
 router.get('/', (req, res) => {
     try {
