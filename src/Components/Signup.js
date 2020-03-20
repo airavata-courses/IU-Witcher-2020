@@ -69,7 +69,7 @@ class Signup extends Component {
 
             <div >
                 <form onSubmit={this.signup}>
-                   <div style={{background-color:"orange"}}>| <b> Signup</b>  |</div>
+                   <div style={{backgroundColor:"orange"}}>| <b> Signup</b>  |</div>
                     <br/>
                     <b>UserName:</b> <input type='text' name='username' onChange={this.setUsername} required/>
                     <br/>
