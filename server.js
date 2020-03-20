@@ -19,6 +19,7 @@ const usersRouter = require('./dbstatic')
 //Adding middleware to express using 'use' method
 //Place middleware code before handlers
 //'urlencoded' tells bodyParser to extract data from <form> element and add them to the 'body' property in request object
+
 app.use(cors())
 express.json()
 app.use(express.json())
