@@ -140,13 +140,14 @@ class Login extends Component {
                     <input type='submit'></input>
                 </form>
 
-                 const listItems = this.state.prediction.map(item => {
-                    <li>{item}</li>}
-                    );
-                    
+                 
+
                 <div className={'prediction'}>
                     <br/><b>Weather Forecasting Results:</b>
-                    <br/> {listItems}
+                    <br/> 
+                    <ol>
+                    {this.state.prediction.map(results => <li>{results}</li>)}
+                    </ol>
                     <br/>
                     <img src='https://i.imgur.com/vnC9QN1.png' alt='error in loading image'/>
                 </div>
