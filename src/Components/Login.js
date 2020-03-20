@@ -12,7 +12,7 @@ class Login extends Component {
             username: "",
             password: "",
             search: "Bloomington Indiana USA KIND",
-            prediction: "",
+            prediction: [],
             history:""
 
         }
@@ -42,7 +42,7 @@ class Login extends Component {
             .then((response) => {
             // handle success
             console.log(response);
-            this.setState({prediction: this.state.prediction+ {"\n"} + response.data})
+            this.setState({prediction: this.state.prediction.concat(response.data)})
 
         }).catch(function(error) {
             // handle error
@@ -102,6 +102,7 @@ class Login extends Component {
     }
 
     render() {
+
         let logindiv = null;
         if (this.state.login) {
             logindiv = (<center>
@@ -138,10 +139,10 @@ class Login extends Component {
                     </select>
                     <input type='submit'></input>
                 </form>
-
+                 const listItems = this.state.prediction.map((item)=><li>{item}</li>);
                 <div className={'prediction'}>
                     <br/><b>Weather Forecasting Results:</b>
-                    <br/> {this.state.prediction}
+                    <br/> {listItems}
                     <br/>
                     <img src='https://i.imgur.com/vnC9QN1.png' alt='error in loading image'/>
                 </div>
