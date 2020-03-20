@@ -18,7 +18,7 @@ def indexPage():
     uname=request.args.get('username')
     password=request.args.get('password')
 
-    if uname=='guest':
+    if uname=='Guest':
         return "Successfully logged in"
 
     print("got user credentials")
@@ -97,7 +97,8 @@ def data():
 
         print(' [*] Waiting for messages. To exit press CTRL+C')
         channel.start_consuming()
-        return str(temp[ "Forecast" ][ 0 ])
+        
+        return search +" : " +str(temp[ "Forecast" ][ 0 ])
 
         # check if user entry exists in mongodb
 
