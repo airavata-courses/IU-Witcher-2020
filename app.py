@@ -130,7 +130,7 @@ def gethistory():
         url = "http://server:4321/users/"
         try:
             response = requests.get('http://server:4321/users/')
-            print("Get response" ,response.content)
+            print("Get response" ,response)
             res_dict = json.loads(response.content.decode('utf-8'))
         except:
             return "Error while getting session information"
