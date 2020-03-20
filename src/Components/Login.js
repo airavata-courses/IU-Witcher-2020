@@ -42,7 +42,7 @@ class Login extends Component {
             .then((response) => {
             // handle success
             console.log(response);
-            this.setState({prediction: response.data})
+            this.setState({prediction: this.state.prediction+ "<br>" + response.data})
 
         }).catch(function(error) {
             // handle error
@@ -140,8 +140,9 @@ class Login extends Component {
                 </form>
 
                 <div className={'prediction'}>
-                    <br/>
+                    <br/><b>Weather Forecasting Results:</b>
                     <br/> {this.state.prediction}
+                    <br>
                     <img src='https://i.imgur.com/vnC9QN1.png' alt='error in loading image'/>
                 </div>
                 <br/>
