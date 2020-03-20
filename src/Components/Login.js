@@ -105,10 +105,10 @@ class Login extends Component {
         let logindiv = null;
         if (this.state.login) {
             logindiv = (<center>
-                <div style="background-color:white">For guest user: UserName = Guest and Password = Guest </div>
+                <div  style={{background-color:"white"}}>For guest user: UserName = Guest and Password = Guest </div>
                 <br/> 
                 <form onSubmit={this.login}>
-                <div style="background-color:orange">| <b>Login</b>  |</div>
+                <div style={{background-color:"orange"}}>| <b>Login</b>  |</div>
                     <br/>
                     <b>UserName:</b>
                     <input type='text' name='username' onChange={this.setUsername} required="required"/>
