@@ -12,9 +12,6 @@ import pika
 import requests
 
 
-userID='' 
-
-
 @app.route('/',methods=['GET'])
 def indexPage():
     uname=request.args.get('username')
@@ -29,9 +26,7 @@ def indexPage():
         'http://user-management?%s' % params).read().decode('utf-8')
     print('response from php: ',content)
     if "True" in content:
-        global userID
-        userID = uname
-        print("userId after logged in",userID)
+        print("userId after logged in")
         return "Successfully logged in"
     else:
         return "Wrong Password"
@@ -40,8 +35,6 @@ def indexPage():
 def signupPage():
     uname=request.args.get('username')
     password=request.args.get('password')
-    #return "logged in"
-    #return "get method %S "% user
     print("signing up user")
     params = urllib.parse.urlencode({'username': uname, 'password': password}).encode("utf-8")
     content = urllib.request.urlopen(
@@ -64,8 +57,11 @@ def data():
         return "weather put"
 
     else:
-        #search=request.args.get('search')
-        #print( "Search " , request.args.get('search'))
+        userID=request.args.get('username')
+        search=request.args.get('search')
+
+        print( "Search " , request.args.get('search'))
+
         credentials = pika.PlainCredentials(username='guest', password='guest')
         try:
         	connection = pika.BlockingConnection(pika.ConnectionParameters(
@@ -81,7 +77,6 @@ def data():
 
         def callback(ch, method, properties, body):
             #sending(body)
-            global temp
             temp = body
             temp=json.loads(temp)
             print( "Forecast" , temp[ "Forecast" ][ 0 ] )
@@ -105,8 +100,6 @@ def data():
 
         url = "http://server:4321/"
 
-
-        global userID
         dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
         try:
             response = requests.get('http://server:4321/users/'+userID)
@@ -130,15 +123,15 @@ def data():
 @app.route('/history',methods=['POST','GET','PUT'])
 def gethistory():
     if request.method == 'GET':
+        userID=request.args.get('username')
         url = "http://server:4321/users"
-        global userID
         try:
             response = requests.get('http://server:4321/users/'+userID)
             print("Get response" ,response.content)
             res_dict = json.loads(response.content.decode('utf-8'))
         except:
             return "Error while getting session information"
-            
+
         return str(res_dict)
 
 if __name__ == '__main__':
