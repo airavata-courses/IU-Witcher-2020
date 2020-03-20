@@ -59,8 +59,6 @@ def data():
     else:
         userID=request.args.get('username')
         search=request.args.get('search')
-        temp=dict()
-        temp["Forecast"]=[['Temp: 25'],['Wind: 40']]
 
         print( "Search " , request.args.get('search'))
 
@@ -79,6 +77,7 @@ def data():
 
         def callback(ch, method, properties, body):
             #sending(body)
+            global temp
             temp = body
             temp=json.loads(temp)
             print( "Forecast" , temp[ "Forecast" ][ 0 ] )
