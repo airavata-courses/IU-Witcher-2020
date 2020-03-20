@@ -17,7 +17,7 @@ table{
   cellspacing: 50px;
 }
 
-
-body{
-   background-image: url("/background.jpeg");
+body  {
+  background-image: url("https://wi-images.condecdn.net/image/doEYpG6Xd87/crop/2040/f/weather.jpg");
+  background-color: #cccccc;
 }

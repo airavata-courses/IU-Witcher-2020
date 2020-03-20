@@ -37,8 +37,7 @@ class Login extends Component {
 
     search = (event) => {
         event.preventDefault();
-        axios.get('http://149.165.171.22:30000/data?search=' + this.state.search)
-
+        axios.get('http://149.165.171.22:30000/data?username='+ this.state.username+'&search=' + this.state.search)
             .then((response) => {
             // handle success
             console.log(response);
@@ -86,7 +85,7 @@ class Login extends Component {
     history=(event)=>{
         event.preventDefault()
 
-        axios.get('http://149.165.171.22:30000/history')
+        axios.get('http://149.165.171.22:30000/history?username='+this.state.username)
             .then((response) => {
             // handle success
             console.log(response);
