@@ -42,7 +42,7 @@ class Login extends Component {
             .then((response) => {
             // handle success
             console.log(response);
-            this.setState({prediction: this.state.prediction+ "<br/>" + response.data})
+            this.setState({prediction: this.state.prediction+ {"\n"} + response.data})
 
         }).catch(function(error) {
             // handle error
