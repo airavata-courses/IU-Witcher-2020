@@ -37,6 +37,7 @@ class Login extends Component {
 
     search = (event) => {
         event.preventDefault();
+        alert('Your Request is Successfully Submitted');
         axios.get('http://149.165.171.22:30000/data?username='+ this.state.username+'&search=' + this.state.search)
             .then((response) => {
             // handle success
@@ -104,6 +105,8 @@ class Login extends Component {
         let logindiv = null;
         if (this.state.login) {
             logindiv = (<center>
+                For guest user: UserName = Guest and Password = Guest
+                <br/> 
                 <form onSubmit={this.login}>
                     Login
                     <br/>
@@ -143,10 +146,13 @@ class Login extends Component {
                 </div>
                 <br/>
 
-                <button>
+                
                     <button onClick={this.history}>Check Session</button>
+                    <br/>
+                    <h4> Previous history </h4>
+                    <br/>
                     {this.state.history}
-                </button>
+                
             </center>)
         }
 
