@@ -129,7 +129,6 @@ def gethistory():
         userID=request.args.get('username')
         url = "http://server:4321/users/"
         try:
-            return "I am okay"
             response = requests.get('http://server:4321/users/')
             print("Get response" ,response)
             res_dict = json.loads(response.content.decode('utf-8'))
