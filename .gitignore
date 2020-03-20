@@ -1,0 +1,8 @@
+*.env
+*.idea
+*.DS_Store
+*.log
+
+**/venv
+**/__pycharm__
+**/node_modules
