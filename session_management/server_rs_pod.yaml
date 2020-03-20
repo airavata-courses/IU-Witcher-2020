@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  name: server
+  labels:
+    name: server
+    app: witcherapp
+
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: server
+    spec:
+      containers:
+      - name: server
+        image: iuwitcher2020/dockerized_session_management:latest
+        ports:
+        - containerPort: 4321
