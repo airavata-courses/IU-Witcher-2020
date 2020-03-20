@@ -139,7 +139,11 @@ class Login extends Component {
                     </select>
                     <input type='submit'></input>
                 </form>
-                 const listItems = this.state.prediction.map((item)=><li>{item}</li>);
+
+                 const listItems = this.state.prediction.map(item => {
+                    <li>{item}</li>}
+                    );
+                    
                 <div className={'prediction'}>
                     <br/><b>Weather Forecasting Results:</b>
                     <br/> {listItems}
