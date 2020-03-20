@@ -17,7 +17,7 @@ temp=''
 def indexPage():
     uname=request.args.get('username')
     password=request.args.get('password')
-    
+
     if uname=='guest':
         return "Successfully logged in"
 
@@ -70,16 +70,16 @@ def data():
         except:
         	print("Error occured while making connection")
         	return "Error occured while making connection to rabbitMQ"
-        	
+
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
         user_data=json.dumps(request.args.get('search'))
         #user_data = json.dumps("Bloomington Indiana USA KIND")
 
-        
+
 
         def callback(ch, method, properties, body):
-            #sending(body)       
+            #sending(body)
             global temp
             temp=json.loads(body)
             print( "Forecast" , temp[ "Forecast" ][ 0 ] )
@@ -101,11 +101,11 @@ def data():
 
         # check if user entry exists in mongodb
 
-        url = "http://server:4321/"
+        url = "http://149.165.171.53:32171/"
 
         dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
         try:
-            response = requests.get('http://server:4321/users/'+userID)
+            response = requests.get('http://149.165.171.53:32171/'+userID)
             print( "Content" , response.content)
             res_dict = json.loads(response.content.decode('utf-8'))
 
@@ -127,9 +127,9 @@ def data():
 def gethistory():
     if request.method == 'GET':
         userID=request.args.get('username')
-        url = "http://server:4321/users"
+        url = "http://149.165.171.53:32171/"
         try:
-            response = requests.get('http://server:4321/users/'+userID)
+            response = requests.get('http://149.165.171.53:32171/'+userID)
             print("Get response" ,response.content)
             res_dict = json.loads(response.content.decode('utf-8'))
         except:
