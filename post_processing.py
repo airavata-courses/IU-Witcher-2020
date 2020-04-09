@@ -17,10 +17,10 @@ import boto.s3
 from boto.s3.key import Key
 from botocore.client import Config
 
-import time
-
+# import time
 # time to start rabbitmq server
 # time.sleep( 10 )
+
 import pyimgur
 CLIENT_ID = "34e5e22dcc85836"
 image_link = pyimgur.Imgur(CLIENT_ID)
@@ -39,7 +39,7 @@ channel.queue_declare(queue='post_processing_2_gateway')
 
 # hosting the image files
 
-def hosting2( ) :
+def image_hosting( ) :
     uploaded_image = image_link.upload_image('Reflectivity_Correlation.png', title="Image Hosted")
     # print( uploaded_image.link )
     return str( uploaded_image.link )
@@ -73,42 +73,25 @@ def plotting( plot_data ) :
     fig.suptitle( 'Minimum and Maximum range of Reflectivity' )
     # saving the file to be used in future
     plt.savefig( "Reflectivity_Correlation.png" )
-    #return "https://akiaiphw3bwx2yojao4a-dump.s3.amazonaws.com/mytestfile"
-    return hosting2( )
+    return image_hosting( )
 
 def sending( user_data ) :
     x = plotting( json.loads( user_data )[ "Processing" ] )
     user_data = json.loads( user_data )
     user_data[ "url" ] = x
     # sending the merged data
-    # print( "About to send" )
     channel.basic_publish(exchange='', routing_key='post_processing_2_gateway', body=json.dumps( user_data ) )
-    # print(" [x] Sent 'Hello World!'")
     connection.close()
 
 def callback(ch, method, properties, body):
     # calling the sending process
     sending( body )
 
-# print( "Post proc" )
-# # consming process
-# channel.basic_consume(
-#     queue='model_execution_2_post_processing', on_message_callback=callback, auto_ack=True)
-#
-# print(' [*] Waiting for messages. To exit press CTRL+C')
-# # start consuming process
-# channel.start_consuming()
 while True :
     channel.basic_consume(
         queue='model_execution_2_post_processing', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
     print( "Post processed" )
-    #time.sleep( 5 )
     connection = pika.BlockingConnection(pika.ConnectionParameters(
                 host = 'message-broker' , port=5672, credentials=credentials))
     channel = connection.channel()
-#
-#     # declaring receiving queue
-#     channel.queue_declare(queue='model_execution_2_post_processing')
-#     # declaring sending queue
-#     channel.queue_declare(queue='post_processing_2_gateway')
