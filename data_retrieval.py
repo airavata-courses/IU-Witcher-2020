@@ -12,7 +12,7 @@ from metpy.io.nexrad import Level2File
 import boto3
 import botocore
 from botocore.client import Config
-import time
+# import time
 # time to start rabbitmq server
 # time.sleep( 5 )
 
@@ -87,26 +87,12 @@ def sending( user_data ) :
 def callback(ch, method, properties, body):
     # calling the sending process
     sending( body )
-    # print(" [x] Received %r" % body)
-# consuming process
-# print( "data Retrv" )
-# channel.basic_consume(
-#     queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
-#
-# print(' [*] Waiting for messages. To exit press CTRL+C')
-# # start consuming process
-# channel.start_consuming()
+
 while True :
     channel.basic_consume(
         queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
-    #time.sleep( 5 )
     print( "Data retrieved" )
     connection = pika.BlockingConnection(pika.ConnectionParameters(
                 host = 'message-broker' , port=5672, credentials=credentials))
     channel = connection.channel()
-#
-#     # declaring receiving queue
-#     channel.queue_declare(queue='data_retrieval_2_model_execution')
-#     # declaring sending queue
-#     channel.queue_declare(queue='gateway_2_data_retrieval')
