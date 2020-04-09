@@ -20,7 +20,7 @@ from botocore.client import Config
 import time
 
 # time to start rabbitmq server
-time.sleep( 10 )
+# time.sleep( 10 )
 import pyimgur
 CLIENT_ID = "34e5e22dcc85836"
 image_link = pyimgur.Imgur(CLIENT_ID)
@@ -38,46 +38,10 @@ channel.queue_declare(queue='model_execution_2_post_processing')
 channel.queue_declare(queue='post_processing_2_gateway')
 
 # hosting the image files
-def hosting( ) :
-    # Uncomment this
-    #AWS_ACCESS_KEY_ID = Your AWS Acess Key ID
-    #AWS_SECRET_ACCESS_KEY = Your AWS SECRET KEY
-
-    AWS_ACCESS_KEY_ID = "AKIAIKHBCPT37RK7ZJDQ"
-    AWS_SECRET_ACCESS_KEY = "e6uOUwLVMKy04TG/at9ljGIXLFp6br61uJZKWzLK"
-
-    # using predefined bucket in AWS
-    bucket_name = AWS_ACCESS_KEY_ID.lower() + '-dump'
-    conn = boto.connect_s3(AWS_ACCESS_KEY_ID,
-            AWS_SECRET_ACCESS_KEY)
-
-    # connecting bucket to be used
-    bucket = conn.create_bucket(bucket_name,
-        location=boto.s3.connection.Location.DEFAULT)
-
-    testfile = "Reflectivity_Correlation.png"
-    print( 'Uploading %s to Amazon S3 bucket %s' % \
-       (testfile, bucket_name) )
-
-    # showcasing the uploading of file
-    def percent_cb(complete, total):
-        sys.stdout.write('.')
-        sys.stdout.flush()
-
-    k = Key(bucket)
-    k.key = 'mytestfile'
-    k.set_contents_from_filename(testfile,
-        cb=percent_cb, num_cb=10)
-    s3 = boto3.client('s3')
-    # making the file public
-    k.set_acl('public-read')
-    # predesignated url
-    return "https://akiaiphw3bwx2yojao4a-dump.s3.amazonaws.com/mytestfile"
-    #return url
 
 def hosting2( ) :
     uploaded_image = image_link.upload_image('Reflectivity_Correlation.png', title="Image Hosted")
-    print( uploaded_image.link )
+    # print( uploaded_image.link )
     return str( uploaded_image.link )
 
 # plotting Reflectivity range
@@ -117,9 +81,9 @@ def sending( user_data ) :
     user_data = json.loads( user_data )
     user_data[ "url" ] = x
     # sending the merged data
-    print( "About to send" )
+    # print( "About to send" )
     channel.basic_publish(exchange='', routing_key='post_processing_2_gateway', body=json.dumps( user_data ) )
-    print(" [x] Sent 'Hello World!'")
+    # print(" [x] Sent 'Hello World!'")
     connection.close()
 
 def callback(ch, method, properties, body):
