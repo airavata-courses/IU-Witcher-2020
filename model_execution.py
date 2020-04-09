@@ -7,7 +7,7 @@ import urllib.request, json
 
 appid_key = "e125e10d5beec79d36fd71a90cdc590c"
 
-import time
+# import time
 # time to start rabbitmq server
 # time.sleep( 10 )
 
@@ -34,8 +34,6 @@ def current_weather( user_data ) :
     # using user city , state , country , site
     user_data_x = user_data[ "User" ]
     user_data_list = user_data_x.split( )
-    #user_url = "http://api.openweathermap.org/data/2.5/weather?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
-    #user_url = "pro.openweathermap.org/data/2.5/forecast/hourly?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
     # for forecasting weather
     user_url = "http://api.openweathermap.org/data/2.5/forecast?q=" + user_data_list[ 0 ] + "," + user_data_list[ 1 ] + "," + user_data_list[ 2 ] + "&appid=" + appid_key
     return getData( user_url )
@@ -65,7 +63,6 @@ def forecasting( user_data ) :
 def sending( user_data ) :
     # sending the merged data
     channel.basic_publish( exchange='', routing_key='model_execution_2_post_processing', body=user_data)
-    # print(" [x] Sent 'Hello World!'")
     connection.close()
 
 def callback(ch, method, properties, body):
@@ -78,12 +75,6 @@ def callback(ch, method, properties, body):
     # calling the sending process
     sending( json.dumps( all_data ) )
 
-# print( "Model exec" )
-# channel.basic_consume(
-#     queue='data_retrieval_2_model_execution', on_message_callback=callback, auto_ack=True)
-#
-# print(' [*] Waiting for messages. To exit press CTRL+C')
-# channel.start_consuming()
 while True :
     channel.basic_consume(
         queue='data_retrieval_2_model_execution', on_message_callback=callback, auto_ack=True)
@@ -92,8 +83,3 @@ while True :
     connection = pika.BlockingConnection(pika.ConnectionParameters(
                 host = 'message-broker' , port=5672, credentials=credentials))
     channel = connection.channel()
-#
-#     # declaring receiving queue
-#     channel.queue_declare(queue='data_retrieval_2_model_execution')
-#     # declaring sending queue
-#     channel.queue_declare(queue='model_execution_2_post_processing')
