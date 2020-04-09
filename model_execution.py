@@ -9,7 +9,7 @@ appid_key = "e125e10d5beec79d36fd71a90cdc590c"
 
 import time
 # time to start rabbitmq server
-time.sleep( 10 )
+# time.sleep( 10 )
 
 # establishing connection to RabbitMQ server
 credentials = pika.PlainCredentials(username='guest', password='guest')
@@ -65,7 +65,7 @@ def forecasting( user_data ) :
 def sending( user_data ) :
     # sending the merged data
     channel.basic_publish( exchange='', routing_key='model_execution_2_post_processing', body=user_data)
-    print(" [x] Sent 'Hello World!'")
+    # print(" [x] Sent 'Hello World!'")
     connection.close()
 
 def callback(ch, method, properties, body):
