@@ -101,7 +101,7 @@ while True :
         queue='gateway_2_data_retrieval', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
     #time.sleep( 5 )
-    print( "Data retrieval" )
+    print( "Data retrieved" )
     connection = pika.BlockingConnection(pika.ConnectionParameters(
                 host = 'message-broker' , port=5672, credentials=credentials))
     channel = connection.channel()
