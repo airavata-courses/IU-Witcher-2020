@@ -21,8 +21,6 @@ channel = connection.channel( )
 
 # declaring receiving queue
 channel.queue_declare( queue = 'data_retrieval_2_model_execution' )
-# declaring sending queue
-channel.queue_declare( queue = 'gateway_2_data_retrieval' )
 
 def data_extraction( user_site ) :
     s3 = boto3.resource(
@@ -50,7 +48,7 @@ def data_extraction( user_site ) :
     # after finding the latest complete element in the NEXRAD AWS directory
     # as per the current time.
     # Downloading that file
-    f = Level2File( last.get( )[ 'Body' ] )
+    f = Level2File( second_last.get( )[ 'Body' ] )
     # extracting mathemtical data from the weather data's class
     # to be passed upon in the future.
     sweep = 0
@@ -72,7 +70,7 @@ def sending( radar_input_data ) :
     # converting json data to dictionary
     radar_input_data = json.loads( radar_input_data )
     # using user site and current date for accessing its weather directory
-    plot_details = data_extraction( radar_input_data.split( )[ -1 ].upper( ) )
+    plot_details = ""#data_extraction( radar_input_data.split( )[ -1 ].upper( ) )
     # Making a dictionary of the elements to be used
     forecast_processing = { "Processing" : plot_details , "User" : radar_input_data }
     # sending the merged data
