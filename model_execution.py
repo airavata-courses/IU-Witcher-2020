@@ -13,14 +13,10 @@ connection = pika.BlockingConnection( pika.ConnectionParameters(
             host = 'message-broker' , port = 5672 , credentials = credentials ) )
 channel = connection.channel()
 
-# declaring receiving queue
-channel.queue_declare( queue = 'data_retrieval_2_model_execution' )
 # declaring sending queue
 channel.queue_declare( queue = 'model_execution_2_post_processing' )
 
-
-def current_weather( user_data ) :
-    # using user city , state , country , site
+def forecasting( user_data ) :
     user_data_x = user_data[ "User" ]
     user_data_list = user_data_x.split( )
     # for forecasting weather
@@ -28,18 +24,14 @@ def current_weather( user_data ) :
     with urllib.request.urlopen( user_url ) as url:
         # load the website to dictionary
         data = json.loads( url.read( ).decode( ) )
-        return data
-
-def forecasting( user_data ) :
     forecast = [  ]
-    body = user_data
     # filtering the forecast data got from the api call
-    # 2 here implies every 3 hours data for 6 hours
-    for i in range( 2 ) :
+    # 1 here implies every 3 hours data
+    for i in range( 1 ) :
         # make a temporary dictionary
         # which stores all the important values as dictionary elements
         temp = { }
-        curr_dir = body[ "list" ][ i ]
+        curr_dir = data[ "list" ][ i ]
         temp[ "temp" ] = k2f( curr_dir[ "main" ][ "temp" ] )
         temp[ "temp_min" ] = k2f( curr_dir[ "main" ][ "temp_min" ] )
         temp[ "temp_max" ] = k2f( curr_dir[ "main" ][ "temp_max" ] )
@@ -54,8 +46,7 @@ def forecasting( user_data ) :
 def callback( ch , method , properties , body ) :
     # making it dictionary
     body = json.loads( body )
-    user_data = current_weather( body )
-    forecast_data = forecasting( user_data )
+    forecast_data = forecasting( body )
     # making dictionary with all elements from prevous and current to one dictionary
     all_data = { "Forecast" : forecast_data , "Processing" : body[ "Processing" ] }
     # calling the sending process
