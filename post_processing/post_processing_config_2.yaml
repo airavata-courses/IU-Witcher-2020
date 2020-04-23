@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/1/./kompose-linux-amd64 convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: post-processing-v2
+  name: post-processing-v2
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: post-processing-v2
+    spec:
+      containers:
+      - image: iuwitcher2020/dockerized_post_processing_v2:latest
+        name: post-processing-v2
+        resources: {}
+      restartPolicy: Always
+status: {}
