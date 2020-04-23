@@ -18,7 +18,7 @@ spec:
         io.kompose.service: model-execution
     spec:
       containers:
-      - image: iuwitcher2020/dockerized_model_execution:latest
+      - image: iuwitcher2020/dockerized_model_execution_v1:latest
         name: model-execution
         resources: {}
       restartPolicy: Always

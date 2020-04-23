@@ -18,7 +18,7 @@ spec:
         io.kompose.service: post-processing
     spec:
       containers:
-      - image: iuwitcher2020/dockerized_post_processing:latest
+      - image: iuwitcher2020/dockerized_post_processing_v1:latest
         name: post-processing
         resources: {}
       restartPolicy: Always
