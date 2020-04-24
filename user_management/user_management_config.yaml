@@ -28,6 +28,6 @@ spec:
       containers:
       - name: user-management
         imagePullPolicy: Always
-        image: iuwitcher2020/dockerized_user_management:latest
+        image: iuwitcher2020/dockerized_user_management_v1:latest
         ports:
         - containerPort: 80

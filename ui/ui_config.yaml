@@ -28,6 +28,6 @@ spec:
       containers:
       - name: ui
         imagePullPolicy: Always
-        image: iuwitcher2020/dockerized_ui:latest
+        image: iuwitcher2020/dockerized_ui_v1:latest
         ports:
         - containerPort: 3000

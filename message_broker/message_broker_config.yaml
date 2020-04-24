@@ -41,7 +41,7 @@ spec:
         io.kompose.service: message-broker
     spec:
       containers:
-      - image: iuwitcher2020/dockerized_message_broker:latest
+      - image: iuwitcher2020/dockerized_message_broker_v1:latest
         name: message-broker
         ports:
         - containerPort: 15672
