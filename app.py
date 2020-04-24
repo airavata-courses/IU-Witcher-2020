@@ -116,7 +116,7 @@ def data():
             r = requests.post(url,json=dict)
             print("post request",r.content)
             #r = json.loads(r.content.decode('utf-8'))
-        return str(temp[ "Forecast" ][ 0 ]['temp'])
+        return str('Current Temp :'+temp[ "Forecast" ][ 0 ]['temp'])
 
 
 @app.route('/history',methods=['POST','GET','PUT'])
