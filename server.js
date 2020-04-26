@@ -27,7 +27,7 @@ app.use(bodyParser(), cors())
 express.json()
 app.use(express.json())
 
-app.use('/', usersRouter) //anything with the route 'root/users/anything/here' will go to usersRouter
+app.use('/history', usersRouter) //anything with the route 'root/users/anything/here' will go to usersRouter
 
 // app.use('/histories', historiesRouter)
 
