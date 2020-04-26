@@ -3,16 +3,16 @@ const express = require('express')
 const bodyParser = require('body-parser') //middleware for reading html from node
 const app = express()
 const mongoose = require('mongoose')
-const usersRouter = require('./routes/users')
+const usersRouter = require('./routes/users-sync')
 var cors = require('cors')
 
 // const historiesRouter = require('./routes/histories')
 
 //db connection
-mongoose.connect('mongodb://mongo:27017/ads-project', {useNewUrlParser: true})
-const db = mongoose.connection
-db.on('error', err => console.log(err))
-db.once('open', () => console.log('Connected to database!'))
+// mongoose.connect('mongodb://mongo:27017/ads-project', {useNewUrlParser: true})
+// const db = mongoose.connection
+// db.on('error', err => console.log(err))
+// db.once('open', () => console.log('Connected to database!'))
 
 /* MIDDLEWARES */
 //Adding middleware to express using 'use' method
