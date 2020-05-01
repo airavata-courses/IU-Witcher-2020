@@ -1,0 +1,83 @@
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ui-503
+spec:
+  destination:
+    namespace: default
+    name: ui
+  precedence: 2
+  route:
+  - labels:
+      app: ui
+  httpFault:
+    abort:
+      percent: 50
+      httpStatus: 503
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ui-delay
+spec:
+  destination:
+    namespace: default
+    name: ui
+  precedence: 2
+  route:
+  - labels:
+      app: ui
+  httpFault:
+    delay:
+      percent: 50
+      fixedDelay: 3s
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ui-v2-503
+spec:
+  destination:
+    namespace: default
+    name: ui
+  precedence: 2
+  route:
+  - labels:
+      version: v2
+  httpFault:
+    abort:
+      percent: 50
+      httpStatus: 503
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ui-v2-retry
+spec:
+  destination:
+    namespace: default
+    name: ui
+  precedence: 3
+  route:
+  - labels:
+      version: v2
+  httpReqRetries:
+    simpleRetry:
+      perTryTimeouts: 2s
+      attempt: 3
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ui-timeout
+spec:
+  destination:
+    namespace: default
+    name: ui
+  precedence: 1
+  route:
+  - labels:
+      app: ui
+  httpReqTimeout:
+    simpleTimeout:
+      timeout: 1s
