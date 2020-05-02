@@ -30,7 +30,7 @@ def indexPage():
         'http://user-management?%s' % params).read().decode('utf-8')
     print('response from php: ',content)
     if "True" in content:
-        print("userId after logged in",userID)
+        print("userId after logged in")
         return "Successfully logged in"
     else:
         return "Wrong Password"
