@@ -12,13 +12,19 @@ import pika
 import requests
 
 
-userID=''
+temp=''
 
 
 @app.route('/',methods=['GET'])
 def indexPage():
     uname=request.args.get('username')
     password=request.args.get('password')
+    
+
+    if uname=='Guest':
+        return "Successfully logged in"
+
+
     print("got user credentials")
     params = urllib.parse.urlencode({'username': uname, 'password': password})
     content = urllib.request.urlopen(
@@ -60,6 +66,13 @@ def data():
         return "weather put"
 
     else:
+
+
+        userID=request.args.get('username')
+        search=request.args.get('search')
+
+        print( "Search " , request.args.get('search'))
+
         #search=request.args.get('search')
         #print( "Search " , request.args.get('search'))
         credentials = pika.PlainCredentials(username='guest', password='guest')
@@ -95,7 +108,9 @@ def data():
 
         print(' [*] Waiting for messages. To exit press CTRL+C')
         channel.start_consuming()
-        return str(temp[ "Forecast" ][ 0 ])
+
+          return search +" : " +str(temp[ "Forecast" ])
+
 
         # check if user entry exists in mongodb
 
@@ -122,13 +137,15 @@ def data():
 @app.route('/history',methods=['POST','GET','PUT'])
 def gethistory():
     if request.method == 'GET':
-        url = "http://localhost:4321/users"
-        global userID
-        response = requests.get('http://localhost:4321/users/'+userID)
-        print("Get response" ,response.content)
-        res_dict = json.loads(response.content.decode('utf-8'))
+        userID=request.args.get('username')
+        url = "http://server:4321/users/"
+        try:
+            response = requests.get('http://server:4321/users/')
+            print("Get response" ,response)
+            res_dict = json.loads(response.content.decode('utf-8'))
+        except:
+            return "Error while getting session information"
 
         return str(res_dict)
-
 if __name__ == '__main__':
     app.run(debug= True,host='0.0.0.0')
