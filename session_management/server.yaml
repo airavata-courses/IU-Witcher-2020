@@ -27,6 +27,6 @@ spec:
       containers:
         - name: server
           imagePullPolicy: Always
-          image: iuwitcher2020/dockerized_session_management_v1
+          image: iuwitcher2020/dockerized_session_management_v1:latest
           ports:
             - containerPort: 4321
