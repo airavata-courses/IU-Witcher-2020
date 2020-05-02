@@ -107,7 +107,7 @@ def data():
         print(' [*] Waiting for messages. To exit press CTRL+C')
         channel.start_consuming()
 
-          return search +" : " +str(temp[ "Forecast" ])
+        return search +" : " +str(temp[ "Forecast" ])
 
 
         # check if user entry exists in mongodb
