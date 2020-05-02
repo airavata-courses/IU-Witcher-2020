@@ -30,8 +30,6 @@ def indexPage():
         'http://user-management?%s' % params).read().decode('utf-8')
     print('response from php: ',content)
     if "True" in content:
-        global userID
-        userID = uname
         print("userId after logged in",userID)
         return "Successfully logged in"
     else:
@@ -65,7 +63,7 @@ def data():
         return "weather put"
 
     else:
-         userID=request.args.get('username')
+        userID=request.args.get('username')
         search=request.args.get('search')
 
         print( "Search " , request.args.get('search'))
@@ -81,8 +79,8 @@ def data():
         	
         channel = connection.channel()
         channel.queue_declare(queue='gateway_2_data_retrieval')
-        #user_data=json.dumps(request.args.get('search'))
-        user_data = json.dumps("Bloomington Indiana USA KIND")
+        user_data=json.dumps(request.args.get('search'))
+        #user_data = json.dumps("Bloomington Indiana USA KIND")
 
         def callback(ch, method, properties, body):
             #sending(body)
@@ -111,7 +109,7 @@ def data():
         url = "http://localhost:4321/users"
 
 
-        global userID
+        #global userID
         dict={'userName':userID,'search':search,'prediction':temp[ "Forecast" ][ 0 ]}
         response = requests.get('http://localhost:4321/users/'+userID)
         print( "Content" , response.content)
