@@ -18,6 +18,40 @@ table{
 }
 
 body  {
-  background-image: url("https://wi-images.condecdn.net/image/doEYpG6Xd87/crop/2040/f/weather.jpg");
+  background-image: url("https://www.orissapost.com/wp-content/uploads/2019/04/earthspace-85757273.jpg");
   background-color: #cccccc;
+}
+
+button{
+  height: 40px;
+  width: 80px;
+  border-radius: 5px;
+  border: 0;
+  background-color:rgba(202, 156, 24, 1);
+  cursor: pointer;
+}
+
+button:focus{
+  outline: none;
+}
+
+
+input{
+  background-color: rgba(27, 112, 137, 1);
+  border: 0;
+  color: #fff;
+  width: 200px;
+  height: 40px;
+  margin: 20px;
+  padding: 0 20px;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+input::placeholder{
+  color: rgba(255,255,255,0.5);
+}
+
+input:focus{
+  outline: none;
 }

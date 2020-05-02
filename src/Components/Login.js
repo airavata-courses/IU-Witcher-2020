@@ -20,7 +20,7 @@ class Login extends Component {
         this.setPassword = this.setPassword.bind(this);
         this.login = this.login.bind(this);
         this.setSearch = this.setSearch.bind(this);
-        this.history=this.history.bind(this);
+
     }
 
     setUsername = (event) => {
@@ -83,23 +83,6 @@ class Login extends Component {
 
     }
 
-    history=(event)=>{
-        event.preventDefault()
-
-        axios.get('http://149.165.171.22:30000/history?username='+this.state.username)
-            .then((response) => {
-            // handle success
-            console.log(response);
-            this.setState({history:response.data})
-
-        }).catch(function(error) {
-            // handle error
-            console.log(error);
-        }).then(function() {
-
-            // always executed
-        });
-    }
 
     render() {
 
@@ -109,13 +92,13 @@ class Login extends Component {
                 <div  style={{backgroundColor:"white"}}>For guest user: UserName = Guest and Password = Guest </div>
                 <br/> 
                 <form onSubmit={this.login}>
-                <div style={{backgroundColor:"orange"}}>| <b>Login</b>  |</div>
+                <div >| <button>Login</button>  |</div>
                     <br/>
-                    <b>UserName:</b>
-                    <input type='text' name='username' onChange={this.setUsername} required="required"/>
+
+                    <input type='text' placeholder={'Username'} name='username' onChange={this.setUsername} required="required"/>
                     <br/>
-                    <b>PassWord:</b>
-                    <input type='text' name='password' onChange={this.setPassword} required="required"/>
+
+                    <input type='password' placeholder={'Password'} name='password' onChange={this.setPassword} required="required"/>
                     <br/>
                     <input type='submit'/>
                 </form>
@@ -149,16 +132,11 @@ class Login extends Component {
                     {this.state.prediction.map(results => <li>{results}</li>)}
                     </ol>
                     <br/>
-                    <img src='https://i.imgur.com/vnC9QN1.png' alt='error in loading image'/>
+
                 </div>
                 <br/>
 
-                
-                    <button onClick={this.history}>Check Session</button>
-                    <br/>
-                    <h4> Previous history </h4>
-                    <br/>
-                    {this.state.history}
+
                 
             </center>)
         }
