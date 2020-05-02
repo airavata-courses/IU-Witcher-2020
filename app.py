@@ -12,6 +12,7 @@ import pika
 import requests
 
 
+temp=''
 #userID=''
 
 
